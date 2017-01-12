@@ -21,7 +21,6 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.RestoreAction;
 
 public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribeHandler
 {
@@ -712,11 +711,11 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 	 *  
 	 * @return a string representation of the XML answer message from the SIB 
 	 */     
-	public SIBResponse queryRDF( Vector<Vector<String>> queryList )
+	public SIBResponse queryRDF( ArrayList<ArrayList<String>> queryList )
 	{
 		deb_print("\n[QUERY RDF]___________________________________");
 		return new SIBResponse(sendSSAPMsg( this.xmlTools.queryRDF(queryList) )); 
-	}//public String queryRDF( Vector<Vector<String>> queryList )
+	}//public String queryRDF( ArrayList<ArrayList<String>> queryList )
 
 
 	/* * * * * * * * * * *\
@@ -841,7 +840,7 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 	 * 
 	 * @return a string representation of the XML answer message from the SIB 
 	 */     
-	public SIBResponse insert( Vector<Vector<String>> queryList )
+	public SIBResponse insert( ArrayList<ArrayList<String>> queryList )
 	{
 		deb_print("\n[INSERT]___________________________________");
 		return new SIBResponse(sendSSAPMsg( this.xmlTools.insert(queryList) ));
@@ -884,13 +883,13 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 	 * 
 	 * @return a string representation of the XML answer message from the SIB 
 	 */     
-	public SIBResponse remove( Vector<Vector<String>> queryList )
+	public SIBResponse remove( ArrayList<ArrayList<String>> queryList )
 	{
 		deb_print("\n[REMOVE]___________________________________");
 		return new SIBResponse(sendSSAPMsg( this.xmlTools.remove(queryList) ));
 	}   
 
-	//       public boolean remove( Vector<Vector<String>> queryList )
+	//       public boolean remove( ArrayList<ArrayList<String>> queryList )
 	//       {deb_print("\n[REMOVE]___________________________________");
 	//        String xml = sendSSAPMsg( this.xmlTools.remove(queryList) );
 	//        return xmlTools.isRemoveConfirmed(xml);
@@ -952,7 +951,7 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 	 * Check the error state with the functions: getErrMess, getErrID
 	 * <p/>
 	 * New value to insert:
-	 * @param newTripleVector the structure to store every new triple to insert. Each element of 
+	 * @param newTripleArrayList the structure to store every new triple to insert. Each element of 
 	 * the vector contains another vector formed by five string elements :
 	 * -the string representation of the new subject
 	 * -the string representation of the new predicate
@@ -961,7 +960,7 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 	 * -the string representation of the new object type. Allowed values are: uri, literal
 	 *   
 	 * Old value to replace:
-	 * @param oldTripleVector the structure to store every old triple to replace. Each element of 
+	 * @param oldTripleArrayList the structure to store every old triple to replace. Each element of 
 	 * the vector contains another vector formed by five string elements :
 	 * -the string representation of the old subject
 	 * -the string representation of the old predicate
@@ -972,10 +971,10 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 	 * @return a string representation of the XML answer message from the SIB 
 	 */
 	//o==old, n==new
-	public SIBResponse update( Vector<Vector<String>>  newTripleVector
-			, Vector<Vector<String>>  oldTripleVector)
+	public SIBResponse update( ArrayList<ArrayList<String>>  newTripleArrayList
+			, ArrayList<ArrayList<String>>  oldTripleArrayList)
 	{deb_print("\n[UPDATE]___________________________________");
-	return new SIBResponse(sendSSAPMsg( this.xmlTools.update(newTripleVector, oldTripleVector) ));
+	return new SIBResponse(sendSSAPMsg( this.xmlTools.update(newTripleArrayList, oldTripleArrayList) ));
 	}
 
 
@@ -1020,7 +1019,7 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 	}//public String subscribeRDF(String s,String p,String o,String o_type)
 
 	@Deprecated
-	public SIBResponse subscribeRDF(Vector<Vector<String> > triples)
+	public SIBResponse subscribeRDF(ArrayList<ArrayList<String> > triples)
 	{
 		deb_print("\n[SUBSCRIBE RDF]___________________________________"); 
 		//System.out.println("DEBUG: " + this.xmlTools.subscribeRDF(s, p, o, o_type));
@@ -1038,7 +1037,7 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 		return subscribe( this.xmlTools.subscribeRDF(s, p, o, o_type ) , handler);
 	}//public String subscribeRDF(String s,String p,String o,String o_type)
 
-	public SIBResponse subscribeRDF(Vector<Vector<String> > triples, iKPIC_subscribeHandler2 handler)
+	public SIBResponse subscribeRDF(ArrayList<ArrayList<String> > triples, iKPIC_subscribeHandler2 handler)
 	{
 		deb_print("\n[SUBSCRIBE RDF]___________________________________"); 
 		//System.out.println("DEBUG: " + this.xmlTools.subscribeRDF(s, p, o, o_type));
@@ -1655,9 +1654,9 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 	 * @return a string representation of the XML answer message from the SIB
 	 */
 	@Override
-	public SIBResponse insertProtection(String EntityI, Vector<String> properties)
+	public SIBResponse insertProtection(String EntityI, ArrayList<String> properties)
 	{
-		Vector<Vector<String>> triples= new Vector<Vector<String>>(); 
+		ArrayList<ArrayList<String>> triples= new ArrayList<ArrayList<String>>(); 
 
 		String xml="";
 		boolean ack=false;	
@@ -1674,7 +1673,7 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 
 		for(int i = 0; i < properties.size();i++)
 		{
-			triples.add(this.xmlTools.newTriple(Protection_Entity, AR_Target, properties.elementAt(i), "URI", "literal"));
+			triples.add(this.xmlTools.newTriple(Protection_Entity, AR_Target, properties.get(i), "URI", "literal"));
 		}
 
 		deb_print("KpCore:insertProtection:Insert triples...");
@@ -1700,9 +1699,9 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 	 * @return a string representation of the XML answer message from the SIB
 	 */
 	@Override
-	public SIBResponse removeProtection(String EntityI, Vector<String> properties)
+	public SIBResponse removeProtection(String EntityI, ArrayList<String> properties)
 	{
-		Vector<Vector<String>> triples= new Vector<Vector<String>>(); 
+		ArrayList<ArrayList<String>> triples= new ArrayList<ArrayList<String>>(); 
 		String xml="";
 		boolean ack=false;	
 
@@ -1718,7 +1717,7 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 
 		for(int i = 0; i < properties.size();i++)
 		{
-			triples.add(this.xmlTools.newTriple(Protection_Entity, AR_Target, properties.elementAt(i), "URI", "literal"));
+			triples.add(this.xmlTools.newTriple(Protection_Entity, AR_Target, properties.get(i), "URI", "literal"));
 		}
 
 		deb_print("KpCore:removeProtection:Remove triples...");
@@ -1758,7 +1757,7 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 	//
 	//	if(!this.xmlTools.isQueryConfirmed(ret))return false; //"*** QUERY NOT CONFIRMED";
 	//
-	//	Vector<Vector<String>> triples = null;
+	//	ArrayList<ArrayList<String>> triples = null;
 	//
 	//	if(ret!=null)
 	//		triples = this.xmlTools.getQueryTriple(ret);
@@ -1766,7 +1765,7 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 	//	if(triples!=null)
 	//	{ deb_print("Triple to remove:\n");
 	//	for(int i=0; i<triples.size() ; i++ )
-	//	{ Vector<String> t=triples.get(i);
+	//	{ ArrayList<String> t=triples.get(i);
 	//	String st=  "  S:["+t.get(0)
 	//			+"] P:["+t.get(1)
 	//			+"] O:["+t.get(2)
@@ -1864,8 +1863,8 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 	}//String update_rdf_xml( String insGraph, String remGraph){
 
 	@Override
-	public void kpic_RDFEventHandler(Vector<Vector<String>> newTriples,
-			Vector<Vector<String>> oldTriples, String indSequence, String subID) {
+	public void kpic_RDFEventHandler(ArrayList<ArrayList<String>> newTriples,
+			ArrayList<ArrayList<String>> oldTriples, String indSequence, String subID) {
 		// TODO Auto-generated method stub
 
 	}

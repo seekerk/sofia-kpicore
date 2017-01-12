@@ -5,7 +5,7 @@
 
 package resources;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import sofia_kp.KPICore;
 import sofia_kp.SIBResponse;
@@ -76,16 +76,16 @@ public class KPIPrimitiveUsage implements iKPIC_subscribeHandler, iKPIC_subscrib
 		 *   - subject type (always "uri")
 		 *   - object type
 		 */
-		Vector<String> triple = new Vector<String>(); 
+		ArrayList<String> triple = new ArrayList<>(); 
 		// that are lists of triple
-		Vector<Vector<String>> triples = new Vector<Vector<String>>();
-		Vector<Vector<String>> triples_ins = new Vector<Vector<String>>();  //Structure that can be useful in many programs
-		Vector<Vector<String>> triples_rem = new Vector<Vector<String>>();  //Structure that can be useful in many programs
+		ArrayList<ArrayList<String>> triples = new ArrayList<ArrayList<String>>();
+		ArrayList<ArrayList<String>> triples_ins = new ArrayList<ArrayList<String>>();  //Structure that can be useful in many programs
+		ArrayList<ArrayList<String>> triples_rem = new ArrayList<ArrayList<String>>();  //Structure that can be useful in many programs
 
 		//create 5 example triples that has http://examplens# as name space 
 		String ns = "http://examplens#";
 		for(int i = 0; i < 5; i++){
-			triple = new Vector<String>();
+			triple = new ArrayList<String>();
 			triple.add(ns+ "subject_" + i);
 			triple.add(ns+ "predicate_" + i);
 			triple.add(ns+ "object_" + i);
@@ -328,7 +328,7 @@ public class KPIPrimitiveUsage implements iKPIC_subscribeHandler, iKPIC_subscrib
 			triples = resp.query_results;
 			if (triples != null){
 				for(int i=0; i<triples.size() ; i++ ){
-					Vector<String> t=triples.get(i);
+					ArrayList<String> t=triples.get(i);
 					System.out.println(" S:["+t.get(0)
 							+"] P:["+t.get(1)
 							+"] O:["+t.get(2)
@@ -454,18 +454,18 @@ else
 
 							if(xmlTools.isRDFNotification(xml))
 							{
-								Vector<Vector<String>> triples_n = new Vector<Vector<String>>();
+								ArrayList<ArrayList<String>> triples_n = new ArrayList<ArrayList<String>>();
 								triples_n = xmlTools.getNewResultEventTriple(xml);
-								Vector<Vector<String>> triples_o = new Vector<Vector<String>>();
+								ArrayList<ArrayList<String>> triples_o = new ArrayList<ArrayList<String>>();
 								triples_o = xmlTools.getObsoleteResultEventTriple(xml);
 								String temp = "\nNotification " + k + "; ID = " + id +"\n";
 								for(int i = 0; i < triples_n.size(); i++ )
 								{
-									temp+="New triple s =" + triples_n.elementAt(i).elementAt(0) + "  + predicate" + triples_n.elementAt(i).elementAt(1) + "object =" + triples_n.elementAt(i).elementAt(2) +"\n";
+									temp+="New triple s =" + triples_n.get(i).get(0) + "  + predicate" + triples_n.get(i).get(1) + "object =" + triples_n.get(i).get(2) +"\n";
 								}
 								for(int i = 0; i < triples_o.size(); i++ )
 								{
-									temp+="Obsolete triple s =" + triples_o.elementAt(i).elementAt(0) + "  + predicate" + triples_o.elementAt(i).elementAt(1) + "object =" + triples_o.elementAt(i).elementAt(2) + "\n";
+									temp+="Obsolete triple s =" + triples_o.get(i).get(0) + "  + predicate" + triples_o.get(i).get(1) + "object =" + triples_o.get(i).get(2) + "\n";
 								}
 								System.out.println(temp);
 							}
@@ -501,19 +501,19 @@ else
 	 */
 
 	@Override
-	public void kpic_RDFEventHandler(Vector<Vector<String>> newTriples,
-			Vector<Vector<String>> oldTriples, String indSequence, String subID) {
+	public void kpic_RDFEventHandler(ArrayList<ArrayList<String>> newTriples,
+			ArrayList<ArrayList<String>> oldTriples, String indSequence, String subID) {
 		// TODO Auto-generated method stub
 		
 
 			String temp = "\nNotification " + indSequence + " id = " + subID +"\n";
 			for(int i = 0; i < newTriples.size(); i++ )
 			{
-				temp+="New triple s =" + newTriples.elementAt(i).elementAt(0) + "  + predicate" + newTriples.elementAt(i).elementAt(1) + "object =" + newTriples.elementAt(i).elementAt(2) +"\n";
+				temp+="New triple s =" + newTriples.get(i).get(0) + "  + predicate" + newTriples.get(i).get(1) + "object =" + newTriples.get(i).get(2) +"\n";
 			}
 			for(int i = 0; i < oldTriples.size(); i++ )
 			{
-				temp+="Obsolete triple s =" + oldTriples.elementAt(i).elementAt(0) + "  + predicate" + oldTriples.elementAt(i).elementAt(1) + "object =" + oldTriples.elementAt(i).elementAt(2) + "\n";
+				temp+="Obsolete triple s =" + oldTriples.get(i).get(0) + "  + predicate" + oldTriples.get(i).get(1) + "object =" + oldTriples.get(i).get(2) + "\n";
 			}
 			System.out.println(temp);
 		

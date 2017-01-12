@@ -8,19 +8,13 @@
 
 package resources;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import sofia_kp.KPICore;
 import sofia_kp.SIBResponse;
 import sofia_kp.SSAP_XMLTools;
 
 import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
@@ -37,8 +31,8 @@ public class JenaBasedOntologyLoader {
 	KPICore kp ;
 	SIBResponse resp = new SIBResponse();
 	private String ontology_path = "";//path to the ontology 
-	Vector<Vector<String>> literalTriples = new Vector<Vector<String>>();
-	Vector<Vector<String>> ObjectTriples = new Vector<Vector<String>>();
+	ArrayList<ArrayList<String>> literalTriples = new ArrayList<>();
+	ArrayList<ArrayList<String>> ObjectTriples = new ArrayList<>();
 
 
 	public static void main(String[] argv)
@@ -99,14 +93,14 @@ public class JenaBasedOntologyLoader {
 	
 	public void addLiteralTriple(Statement st)
 	{
-		Vector<String> temp  =new Vector<String>();
+		ArrayList<String> temp  =new ArrayList<>();
 		SSAP_XMLTools ssap = new SSAP_XMLTools();
 		temp = ssap.newTriple(st.getSubject().getURI(), st.getPredicate().getURI(), st.getObject().asLiteral().getString(), "uri", "literal");
 	literalTriples.add(temp);
 	}
 	public void addObjectTriple(Statement st)
 	{
-		Vector<String> temp  =new Vector<String>();
+		ArrayList<String> temp  =new ArrayList<>();
 		SSAP_XMLTools ssap = new SSAP_XMLTools();
 		temp = ssap.newTriple(st.getSubject().getURI(), st.getPredicate().getURI(), st.getObject().asResource().getURI(), "uri", "uri");
 	    ObjectTriples.add(temp);
@@ -114,22 +108,22 @@ public class JenaBasedOntologyLoader {
 	
 	public boolean bufferedInsert()
 	{
-		Vector<Vector<String>> triples = new Vector<Vector<String>>();
+		ArrayList<ArrayList<String>> triples = new ArrayList<>();
 		kp = new KPICore(SIB_host, SIBPort, SIBName);
 		kp.join();
 		while((ObjectTriples.size()>0) || (literalTriples.size()>0)   )
 		{
-			triples =  new Vector<Vector<String>>();
+			triples =  new ArrayList<>();
 			while(triples.size()<100 && ( (ObjectTriples.size()>0) || (literalTriples.size()>0)  ) )
 			{
 				if(ObjectTriples.size()>0)
 				{
-					triples.add(ObjectTriples.firstElement());
+					triples.add(ObjectTriples.get(0));
 					ObjectTriples.remove(0);
 				}
 				if(literalTriples.size()>0)
 				{
-					triples.add(literalTriples.firstElement());
+					triples.add(literalTriples.get(0));
 					literalTriples.remove(0);
 				}
 			}

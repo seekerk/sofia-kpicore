@@ -4,7 +4,7 @@
  */
 package resources;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import sofia_kp.SSAP_XMLTools;
 import sofia_kp.SSAP_sparql_response;
@@ -14,8 +14,8 @@ public class Handler  implements sofia_kp.iKPIC_subscribeHandler{
 	
 
 
-	//	Vector<Vector<String>> triples_n ;
-	//	Vector<Vector<String>> triples_o;
+	//	ArrayList<ArrayList<String>> triples_n ;
+	//	ArrayList<ArrayList<String>> triples_o;
 	//String xml_i ;
 	//k++;
 
@@ -27,8 +27,9 @@ public class Handler  implements sofia_kp.iKPIC_subscribeHandler{
 		//System.out.println("##########"+ xml);
 		new Thread(
 				new Runnable() {
+                                        @Override
 					public void run() {
-						String id = "";
+						String id;
 						
 						SSAP_XMLTools xmlTools = new SSAP_XMLTools();
 						String k = xmlTools.getSSAPmsgIndicationSequence(xml);
@@ -36,18 +37,18 @@ public class Handler  implements sofia_kp.iKPIC_subscribeHandler{
 						System.out.println (xml);
 						if(xmlTools.isRDFNotification(xml))
 						{
-							Vector<Vector<String>> triples_n = new Vector<Vector<String>>();
+							ArrayList<ArrayList<String>> triples_n;
 									                	triples_n = xmlTools.getNewResultEventTriple(xml);
-									                	Vector<Vector<String>> triples_o = new Vector<Vector<String>>();
+									                	ArrayList<ArrayList<String>> triples_o;
 									                	triples_o = xmlTools.getObsoleteResultEventTriple(xml);
 									                	String temp = "\n Notif. " + k + " id = " + id +"\n";
 									                	for(int i = 0; i < triples_n.size(); i++ )
 									                	{
-									                		temp+="New triple s =" + triples_n.elementAt(i).elementAt(0) + "  + predicate" + triples_n.elementAt(i).elementAt(1) + "object =" + triples_n.elementAt(i).elementAt(2) +"\n";
+									                		temp+="New triple s =" + triples_n.get(i).get(0) + "  + predicate" + triples_n.get(i).get(1) + "object =" + triples_n.get(i).get(2) +"\n";
 									                	}
 									                	for(int i = 0; i < triples_o.size(); i++ )
 									                	{
-									                		temp+="Obsolete triple s =" + triples_o.elementAt(i).elementAt(0) + "  + predicate" + triples_o.elementAt(i).elementAt(1) + "object =" + triples_o.elementAt(i).elementAt(2) + "\n";
+									                		temp+="Obsolete triple s =" + triples_o.get(i).get(0) + "  + predicate" + triples_o.get(i).get(1) + "object =" + triples_o.get(i).get(2) + "\n";
 									                	}
 									                	System.out.println(temp);
 						}

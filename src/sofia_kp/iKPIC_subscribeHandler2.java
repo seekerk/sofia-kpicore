@@ -8,7 +8,7 @@
 
 package sofia_kp;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 public interface iKPIC_subscribeHandler2 {
 	
@@ -23,7 +23,7 @@ public interface iKPIC_subscribeHandler2 {
      */
 	//public void kpic_SIBEventHandler(String xml);
 	
-	public void kpic_RDFEventHandler(Vector<Vector<String>> newTriples, Vector<Vector<String>> oldTriples, String indSequence, String subID );
+	public void kpic_RDFEventHandler(ArrayList<ArrayList<String>> newTriples, ArrayList<ArrayList<String>> oldTriples, String indSequence, String subID );
 	
 	public void kpic_SPARQLEventHandler(SSAP_sparql_response newResults, SSAP_sparql_response oldResults, String indSequence, String subID );
 	

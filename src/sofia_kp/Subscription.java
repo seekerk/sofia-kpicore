@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import sofia_kp.SSAP_sparql_response;
 
@@ -94,9 +94,9 @@ System.out.println ("Subscription: going to start thread");
 								String indSequence = xmlTools.getSSAPmsgIndicationSequence(msg_event);
 								if(xmlTools.isRDFNotification(msg_event))
 								{
-									Vector<Vector<String>> triples_n = new Vector<Vector<String>>();
+									ArrayList<ArrayList<String>> triples_n = new ArrayList<ArrayList<String>>();
 									triples_n = xmlTools.getNewResultEventTriple(msg_event);
-									Vector<Vector<String>> triples_o = new Vector<Vector<String>>();
+									ArrayList<ArrayList<String>> triples_o = new ArrayList<ArrayList<String>>();
 									triples_o = xmlTools.getObsoleteResultEventTriple(msg_event);
 									//int indSequence = xmlTools.getSSAPmsgIndicationSequence(msg_event);
 									f_eh.kpic_RDFEventHandler(triples_n, triples_o, indSequence, subID);

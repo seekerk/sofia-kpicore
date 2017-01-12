@@ -2,7 +2,7 @@ package sofia_kp;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Vector;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.swing.JButton;
@@ -380,16 +380,16 @@ public class KP_GUI  extends Panel implements ActionListener, iKPIC_subscribeHan
 	/**
 	 *  Just a friendly method to print results on the console!
 	 */
-	private void printResultsOnTaMEMO(Vector<Vector<String[]>> results_vector)
+	private void printResultsOnTaMEMO(ArrayList<ArrayList<String[]>> results_vector)
 	{
 		for (int i = 0; i < results_vector.size(); i++)
 		{
-			Vector<String[]> single_result_vector = results_vector.elementAt(i);
+			ArrayList<String[]> single_result_vector = results_vector.get(i);
 			this.taMemo.append("\n----- Result "+i+":");
 			for (int j = 0; j < single_result_vector.size(); j++) 
 			{
 				this.taMemo.append("\n--- row "+j+":");
-				String[] row = single_result_vector.elementAt(j);
+				String[] row = single_result_vector.get(j);
 				//				System.out.print("\nelement " + j + "=");
 
 				for (int k =0; k<row.length; k++ )
@@ -404,6 +404,7 @@ public class KP_GUI  extends Panel implements ActionListener, iKPIC_subscribeHan
 
 
 
+        @Override
 	public void actionPerformed(ActionEvent e)
 	{
 		SIBResponse ret= null;
@@ -466,7 +467,7 @@ public class KP_GUI  extends Panel implements ActionListener, iKPIC_subscribeHan
 
 
 		ArcesServiceRegistry sr=new ArcesServiceRegistry( (String)cbSOFIADNSIPList.getSelectedItem() );
-		Vector<Properties> reg=null;
+		ArrayList<Properties> reg=null;
 		Properties userServiceSearch=new Properties();
 
 		//From, e.g. a=1&b=2&qwerty=23, to properties
@@ -492,7 +493,7 @@ public class KP_GUI  extends Panel implements ActionListener, iKPIC_subscribeHan
 
 		for(int i=0; i<reg.size() ;i++)
 		{ 
-			str_service_list+=reg.elementAt(i).toString()+"\n";
+			str_service_list+=reg.get(i).toString()+"\n";
 		}
 
 		JOptionPane.showConfirmDialog(null,
@@ -552,7 +553,7 @@ public class KP_GUI  extends Panel implements ActionListener, iKPIC_subscribeHan
 		return;
 	}
 	history.append("rdf query s = " + tfSN.getText() + " p = " + tfPN.getText() + " o = " + tfON.getText()+ " ot = " + tfONType.getText() + "\n" );
-	Vector<Vector<String>> triples = null;
+	ArrayList<ArrayList<String>> triples = null;
 
 	if(ret!=null)
 	{
@@ -563,7 +564,7 @@ public class KP_GUI  extends Panel implements ActionListener, iKPIC_subscribeHan
 	{
 		taMemo.append("Triple List:\n");
 		for(int i=0; i<triples.size() ; i++ )
-		{ Vector<String> t=triples.get(i);
+		{ ArrayList<String> t=triples.get(i);
 		String st=  "  S:["+t.get(0)
 				+"] P:["+t.get(1)
 				+"] O:["+t.get(2)
@@ -813,7 +814,7 @@ public class KP_GUI  extends Panel implements ActionListener, iKPIC_subscribeHan
 		return;
 	}
 	history.append("rdf query s = " + tfSN.getText() + " p = " + tfPN.getText() + " o = " + tfON.getText()+ " ot = " + tfONType.getText() + "\n" );
-	Vector<Vector<String>> triples = null;
+	ArrayList<ArrayList<String>> triples = null;
 
 	if(ret!=null)
 	{
@@ -824,7 +825,7 @@ public class KP_GUI  extends Panel implements ActionListener, iKPIC_subscribeHan
 	{
 		taMemo.append("Triple List:\n");
 		for(int i=0; i<triples.size() ; i++ )
-		{ Vector<String> t=triples.get(i);
+		{ ArrayList<String> t=triples.get(i);
 		String st=  "  S:["+t.get(0)
 				+"] P:["+t.get(1)
 				+"] O:["+t.get(2)
@@ -895,7 +896,7 @@ public class KP_GUI  extends Panel implements ActionListener, iKPIC_subscribeHan
 
 	else if( c == bInsertProtection)
 	{boolean success=false;
-	Vector<String> properties = new Vector<String>();
+	ArrayList<String> properties = new ArrayList<String>();
 
 	taMemo.setText("");
 
@@ -917,7 +918,7 @@ public class KP_GUI  extends Panel implements ActionListener, iKPIC_subscribeHan
 
 	else if( c == bRemoveProtection)
 	{boolean success=false;
-	Vector<String> properties = new Vector<String>();
+	ArrayList<String> properties = new ArrayList<String>();
 	taMemo.setText("");
 
 	if(   tfPN.getText().equals("")||tfSN.getText().equals("")
@@ -980,6 +981,7 @@ public class KP_GUI  extends Panel implements ActionListener, iKPIC_subscribeHan
 
 
 			f1.addWindowListener(new WindowAdapter() {
+                                @Override
 				public void windowClosing(WindowEvent e) {
 					f1.setVisible(false);
 					f1.dispose();
@@ -1048,9 +1050,9 @@ public class KP_GUI  extends Panel implements ActionListener, iKPIC_subscribeHan
 	//						System.out.println (xml);
 	//						if(xmlTools.isRDFNotification(xml))
 	//						{
-	//							Vector<Vector<String>> triples_n = new Vector<Vector<String>>();
+	//							ArrayList<ArrayList<String>> triples_n = new ArrayList<ArrayList<String>>();
 	//							triples_n = xmlTools.getNewResultEventTriple(xml);
-	//							Vector<Vector<String>> triples_o = new Vector<Vector<String>>();
+	//							ArrayList<ArrayList<String>> triples_o = new ArrayList<ArrayList<String>>();
 	//							triples_o = xmlTools.getObsoleteResultEventTriple(xml);
 	//							String temp = " \n Notif. " + k + " id = " + id +"\n";
 	//							for(int i = 0; i < triples_n.size(); i++ )
@@ -1099,12 +1101,12 @@ public class KP_GUI  extends Panel implements ActionListener, iKPIC_subscribeHan
 	//      }//if( this.xmlTools.isUnSubscriptionConfirmed(xml) )
 	//
 	//      
-	//      Vector<Vector<String>> triples = this.xmlTools.getNewResultEventTriple(xml);
+	//      ArrayList<ArrayList<String>> triples = this.xmlTools.getNewResultEventTriple(xml);
 	//	    
 	//      if(triples!=null)
 	//      { taMemo.append("NEW RESULT:\n");
 	//    	for(int i=0; i<triples.size() ; i++ )
-	//	      { Vector<String> t=triples.get(i);
+	//	      { ArrayList<String> t=triples.get(i);
 	//	        String st=  "  S:["+t.get(0)
 	//	    		           +"] P:["+t.get(1)
 	//	    		           +"] O:["+t.get(2)
@@ -1120,7 +1122,7 @@ public class KP_GUI  extends Panel implements ActionListener, iKPIC_subscribeHan
 	//      if(triples!=null)
 	//      { taMemo.append("OBSOLETE RESULT:\n");
 	//    	for(int i=0; i<triples.size() ; i++ )
-	//	      { Vector<String> t=triples.get(i);
+	//	      { ArrayList<String> t=triples.get(i);
 	//	        String st=  "  S:["+t.get(0)
 	//	    		           +"] P:["+t.get(1)
 	//	    		           +"] O:["+t.get(2)
@@ -1185,6 +1187,7 @@ public class KP_GUI  extends Panel implements ActionListener, iKPIC_subscribeHan
 
 		f.addWindowListener(new WindowAdapter() {
 
+                        @Override
 			public void windowClosing(WindowEvent e)
 			{
 				System.exit(0);
@@ -1267,6 +1270,7 @@ public class KP_GUI  extends Panel implements ActionListener, iKPIC_subscribeHan
 			this.visualize = visualize;
 		}
 
+                @Override
 		public String toString()
 		{
 			return this.getVisualize();
@@ -1274,17 +1278,17 @@ public class KP_GUI  extends Panel implements ActionListener, iKPIC_subscribeHan
 	}
 
 	@Override
-	public void kpic_RDFEventHandler(Vector<Vector<String>> newTriples,
-			Vector<Vector<String>> oldTriples, String indSequence, String subID) {
+	public void kpic_RDFEventHandler(ArrayList<ArrayList<String>> newTriples,
+			ArrayList<ArrayList<String>> oldTriples, String indSequence, String subID) {
 
 		String temp = "\n Notif. " + indSequence + " id = " + subID +"\n";
 		for(int i = 0; i < newTriples.size(); i++ )
 		{
-			temp+="New triple s =" + newTriples.elementAt(i).elementAt(0) + "  + predicate" + newTriples.elementAt(i).elementAt(1) + "object =" + newTriples.elementAt(i).elementAt(2) +"\n";
+			temp+="New triple s =" + newTriples.get(i).get(0) + "  + predicate" + newTriples.get(i).get(1) + "object =" + newTriples.get(i).get(2) +"\n";
 		}
 		for(int i = 0; i < oldTriples.size(); i++ )
 		{
-			temp+="Obsolete triple s =" + oldTriples.elementAt(i).elementAt(0) + "  + predicate" + oldTriples.elementAt(i).elementAt(1) + "object =" + oldTriples.elementAt(i).elementAt(2) + "\n";
+			temp+="Obsolete triple s =" + oldTriples.get(i).get(0) + "  + predicate" + oldTriples.get(i).get(1) + "object =" + oldTriples.get(i).get(2) + "\n";
 		}
 		System.out.println(temp);
 		taMemo.append(temp);

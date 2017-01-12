@@ -24,7 +24,7 @@ public class ArcesServiceRegistry
 	 *  
 	 */
 	
-	public Vector<Properties> search()
+	public ArrayList<Properties> search()
 	{
 	 return this.search(null);	
 	}//public Properties search()
@@ -42,9 +42,9 @@ public class ArcesServiceRegistry
 	 *  
 	 */
 	
-	public Vector<Properties> search(Properties serviceProperties)
+	public ArrayList<Properties> search(Properties serviceProperties)
 	{String GETCommand="", ret="";
-     Vector<Properties> vSearchResult=new Vector();
+     ArrayList<Properties> vSearchResult=new ArrayList();
      
 	
 		if(serviceProperties!=null && !serviceProperties.equals(""))

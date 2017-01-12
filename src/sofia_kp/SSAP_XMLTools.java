@@ -13,13 +13,10 @@
 package sofia_kp;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import org.jdom2.*;
 //import org.jdom.input.SAXBuilder;
@@ -272,7 +269,7 @@ public class SSAP_XMLTools
 	 * -the object type
 	 * 
 	 */
-	public Vector<Vector<String>> getQueryTriple(String xml)
+	public ArrayList<ArrayList<String>> getQueryTriple(String xml)
 	{
 		if(xml==null)
 		{
@@ -294,7 +291,7 @@ public class SSAP_XMLTools
 			return null;
 		}
 
-		Vector<Vector<String>> triple=new Vector<Vector<String>>();
+		ArrayList<ArrayList<String>> triple=new ArrayList<ArrayList<String>>();
 
 		Element root = doc.getRootElement();
 		Namespace ns = root.getNamespace();
@@ -314,7 +311,7 @@ public class SSAP_XMLTools
 		Iterator<Element> i = triples.iterator();
 
 		while(i.hasNext())
-		{   Vector<String> singleton=new Vector<String>();
+		{   ArrayList<String> singleton=new ArrayList<String>();
 
 		Element etriple = i.next();
 		singleton.add(etriple.getChild("subject", ns).getText());
@@ -326,7 +323,7 @@ public class SSAP_XMLTools
 		}//while(i.hasNext())
 
 		return triple;
-	}//public Vector<Vector<String>> getQueryTriple()
+	}//public ArrayList<ArrayList<String>> getQueryTriple()
 
 
 	/**
@@ -344,10 +341,10 @@ public class SSAP_XMLTools
 	 * @param predicate xml SIB message triple predicate
 	 * @return the string representation of the object
 	 */
-	public String getTripleObjectByPredicate( Vector<Vector<String>> triple_list, String predicate) 
+	public String getTripleObjectByPredicate( ArrayList<ArrayList<String>> triple_list, String predicate) 
 	{
 		for(int i=0; i<triple_list.size() ;i++)
-		{ Vector<String> t = triple_list.get(i);
+		{ ArrayList<String> t = triple_list.get(i);
 		if( t != null ) 
 			if( t.get(1)!=null && ((String)t.get(1)).equals(predicate))
 			{return t.get(2);}
@@ -362,7 +359,7 @@ public class SSAP_XMLTools
 	 * Get the index of the first occurrence of the triple in a triple list 
 	 * by specify the Predicate value
 	 *  
-	 * @param tripleVector a list of triple string representation.
+	 * @param tripleArrayList a list of triple string representation.
 	 * It is a structure to store every triple. Each element of 
 	 * the vector contains another vector formed by five string elements :
 	 * -the subject
@@ -374,10 +371,10 @@ public class SSAP_XMLTools
 	 * @param predicate xml SIB message triple predicate
 	 * @return the index of the first predicate occurrence in the triple list 
 	 */
-	public int getTripleIndexByPredicate( Vector<Vector<String>> tripleVector, String predicate) 
+	public int getTripleIndexByPredicate( ArrayList<ArrayList<String>> tripleArrayList, String predicate) 
 	{
-		for(int i=0; i<tripleVector.size() ;i++)
-		{ Vector<String> t = tripleVector.get(i);
+		for(int i=0; i<tripleArrayList.size() ;i++)
+		{ ArrayList<String> t = tripleArrayList.get(i);
 		if( t != null ) 
 			if( t.get(1)!=null && ((String)t.get(1)).equals(predicate))
 			{return i;}
@@ -401,7 +398,7 @@ public class SSAP_XMLTools
 	 * -the object type 
 	 *
 	 */
-	public Vector<Vector<String>> getNewResultEventTriple(String xml)
+	public ArrayList<ArrayList<String>> getNewResultEventTriple(String xml)
 	{return getEventTriple(xml,"new_results");}
 
 	/**
@@ -418,7 +415,7 @@ public class SSAP_XMLTools
 	 * -the object type 
 	 *
 	 */
-	public Vector<Vector<String>> getObsoleteResultEventTriple(String xml)
+	public ArrayList<ArrayList<String>> getObsoleteResultEventTriple(String xml)
 	{return getEventTriple(xml,"obsolete_results");}
 
 	/**
@@ -437,7 +434,7 @@ public class SSAP_XMLTools
 	 * -the object type 
 	 *
 	 */
-	private Vector<Vector<String>> getEventTriple(String xml,String ParamAttValue)
+	private ArrayList<ArrayList<String>> getEventTriple(String xml,String ParamAttValue)
 	{
 		if(xml==null){System.out.println("ERROR:SSAP_XMLTools:getEventTriple: XML message is null");return null;}
 
@@ -447,13 +444,13 @@ public class SSAP_XMLTools
 		Element triple_list = parameters.getChild("triple_list");
 		if(triple_list==null) {System.out.println("ERROR:SSAP_XMLTools:getEventTriple:triple_list not found");return null;}
 
-		Vector<Vector<String>> triple=new Vector<Vector<String>>();
+		ArrayList<ArrayList<String>> triple=new ArrayList<ArrayList<String>>();
 
 		List<Element> triples =  triple_list.getChildren("triple");
 		Iterator<Element> i = triples.iterator();
 
 		while(i.hasNext())
-		{   Vector<String> singleton=new Vector<String>();
+		{   ArrayList<String> singleton=new ArrayList<String>();
 
 		Element etriple = i.next();
 		singleton.add(etriple.getChild("subject").getText());
@@ -465,7 +462,7 @@ public class SSAP_XMLTools
 		}//while(i.hasNext())
 
 		return triple;
-	}//public Vector<Vector<String>> getQueryTriple()
+	}//public ArrayList<ArrayList<String>> getQueryTriple()
 
 
 	/**
@@ -570,9 +567,9 @@ public class SSAP_XMLTools
 	 * @return a string list representation of the triple  
 	 */
 
-	public Vector<String> newTriple(String s,String p,String o, String s_type, String o_type)
+	public ArrayList<String> newTriple(String s,String p,String o, String s_type, String o_type)
 	{
-		Vector<String> triple=new Vector<String>();
+		ArrayList<String> triple=new ArrayList<String>();
 
 		triple.add(0, (s==null?ANYURI:s) ); 
 		triple.add(1, (p==null?ANYURI:p) );
@@ -581,7 +578,7 @@ public class SSAP_XMLTools
 		triple.add(4, o_type);
 
 		return triple;
-	}//	public Vector<String> newTriple(String s,String p,String o, String s_type, String o_type)
+	}//	public ArrayList<String> newTriple(String s,String p,String o, String s_type, String o_type)
 
 	/**
 	 * Method to print on the standard output the triple content
@@ -590,12 +587,12 @@ public class SSAP_XMLTools
 	 */
 	public void printTriple(String xml)
 	{
-		Vector<Vector<String>> triples = getQueryTriple(xml);
+		ArrayList<ArrayList<String>> triples = getQueryTriple(xml);
 
 		if(triples!=null)
 		{ System.out.println("Triple List:\n");
 		for(int i=0; i<triples.size() ; i++ )
-		{ Vector<String> t=triples.get(i);
+		{ ArrayList<String> t=triples.get(i);
 		System.out.println(
 				"  S:["+t.get(0)
 				+"] P:["+t.get(1)
@@ -702,7 +699,7 @@ public class SSAP_XMLTools
 	 * 
 	 * @return a string representation of the XML answer message from the SIB 
 	 */
-	public String queryRDF( Vector<Vector<String>> queryList )
+	public String queryRDF( ArrayList<ArrayList<String>> queryList )
 	{String query=    
 	"<SSAP_message><transaction_type>QUERY</transaction_type><message_type>REQUEST</message_type>"
 			+"<transaction_id>"+ ++transaction_id +"</transaction_id>"
@@ -711,7 +708,7 @@ public class SSAP_XMLTools
 			+"<parameter name = \"type\">RDF-M3</parameter>"
 			+"<parameter name = \"query\">";
 
-	query=query+this.getTripleListFromTripleVector(queryList);
+	query=query+this.getTripleListFromTripleArrayList(queryList);
 
 	//    query=query+"<triple_list>";
 	//     for(int i=0; i< queryList.size() ;i++)
@@ -732,7 +729,7 @@ public class SSAP_XMLTools
 			+"</parameter></SSAP_message>";
 
 	return query;
-	}//public String queryRDF( Vector<Vector<String>> queryList )
+	}//public String queryRDF( ArrayList<ArrayList<String>> queryList )
 
 
 
@@ -750,16 +747,16 @@ public class SSAP_XMLTools
 	 * 
 	 * @return a string representation of the XML that represent the triple list for the SSAP message 
 	 */
-	private String getTripleListFromTripleVector( Vector<Vector<String>> tripleVector )
+	private String getTripleListFromTripleArrayList( ArrayList<ArrayList<String>> tripleArrayList )
 	{String tripleList="<triple_list>";
 
-	for(int i=0; i< tripleVector.size() ;i++)
+	for(int i=0; i< tripleArrayList.size() ;i++)
 	{
-	String s=tripleVector.elementAt(i).elementAt(0);
-	String p=tripleVector.elementAt(i).elementAt(1);
-	String o=tripleVector.elementAt(i).elementAt(2);
-	String st=s==null?"URI":tripleVector.elementAt(i).elementAt(3);
-	String ot=o==null?"URI":tripleVector.elementAt(i).elementAt(4);
+	String s=tripleArrayList.get(i).get(0);
+	String p=tripleArrayList.get(i).get(1);
+	String o=tripleArrayList.get(i).get(2);
+	String st=s==null?"URI":tripleArrayList.get(i).get(3);
+	String ot=o==null?"URI":tripleArrayList.get(i).get(4);
 
 	tripleList=tripleList
 			+"<triple>"        
@@ -767,14 +764,14 @@ public class SSAP_XMLTools
 			+"<predicate>"+ (p==null?ANYURI:p)+"</predicate>"
 			+"<object type=\"" +ot+"\">"
 			+"<![CDATA["
-			+ ""+( o==null?ANYURI:(correctEntityReferences(o.replaceAll("[^\\x20-\\x7e]", "??"))))
+			+ ""+( o==null?ANYURI:(correctEntityReferences(o)))
 		  //  + ""+ (o==null?ANYURI:correctEntityReferences(o))
             +"]]>"
 			+"</object>"		
 			+"</triple>";
 	}
 	return tripleList+"</triple_list>";
-	}//private String getTripleListFromTripleVector( Vector<Vector<String>> tripleList )
+	}//private String getTripleListFromTripleArrayList( ArrayList<ArrayList<String>> tripleList )
 
 
 
@@ -809,7 +806,7 @@ public class SSAP_XMLTools
     +"<object type=\""+o_type+"\">"
     
     + "<![CDATA["
-    + (correctEntityReferences(o.replaceAll("[^\\x20-\\x7e]", "??")))
+    + (correctEntityReferences(o))
     +"]]>"
     +"</object>"
 
@@ -823,7 +820,7 @@ public class SSAP_XMLTools
 	/**
 	 * Make the INSERT SSAP message 
 	 * 
-	 * @param tripleVector is a structure to store every triple. Each element of 
+	 * @param tripleArrayList is a structure to store every triple. Each element of 
 	 * the vector contains another vector formed by five string elements :
 	 * -the subject
 	 * -the predicate
@@ -833,7 +830,7 @@ public class SSAP_XMLTools
 	 * 
 	 * @return a string representation of the XML answer message from the SIB 
 	 */
-	public String insert( Vector<Vector<String>>  tripleVector)
+	public String insert( ArrayList<ArrayList<String>>  tripleArrayList)
 	{String SSAP_MSG=
 	"<SSAP_message>"
 			+"<message_type>REQUEST</message_type>"
@@ -844,7 +841,7 @@ public class SSAP_XMLTools
 			+"<parameter name=\"confirm\">TRUE</parameter>"
 			+"<parameter name=\"insert_graph\"  encoding=\"RDF-M3\">";
 
-	SSAP_MSG=SSAP_MSG+this.getTripleListFromTripleVector(tripleVector);
+	SSAP_MSG=SSAP_MSG+this.getTripleListFromTripleArrayList(tripleArrayList);
 
 	SSAP_MSG=SSAP_MSG
 			+"</parameter>"
@@ -899,7 +896,7 @@ public class SSAP_XMLTools
 	/**
 	 * Make the REMOVE SSAP message 
 	 * 
-	 * @param tripleVector is a structure to store every triple. Each element of 
+	 * @param tripleArrayList is a structure to store every triple. Each element of 
 	 * the vector contains another vector formed by five string elements :
 	 * -the subject
 	 * -the predicate
@@ -909,7 +906,7 @@ public class SSAP_XMLTools
 	 * 
 	 * @return a string representation of the XML answer message from the SIB 
 	 */
-	public String remove( Vector<Vector<String>>  tripleVector)
+	public String remove( ArrayList<ArrayList<String>>  tripleArrayList)
 	{String  SSAP_MSG=
 	"<SSAP_message>"
 			+"<message_type>REQUEST</message_type>"
@@ -920,7 +917,7 @@ public class SSAP_XMLTools
 			+"<parameter name=\"confirm\">TRUE</parameter>"
 			+"<parameter name=\"remove_graph\"  encoding=\"RDF-M3\">";
 
-	SSAP_MSG=SSAP_MSG+this.getTripleListFromTripleVector(tripleVector);
+	SSAP_MSG=SSAP_MSG+this.getTripleListFromTripleArrayList(tripleArrayList);
 
 	SSAP_MSG=SSAP_MSG
 			+"</parameter>"
@@ -967,7 +964,7 @@ public class SSAP_XMLTools
  		   +"<predicate>"+                    pn+"</predicate>"
  		   +"<object type=\""+on_type+"\">"
  		   + "<![CDATA["
-           +(correctEntityReferences(on.replaceAll("[^\\x20-\\x7e]", "??")))
+           +(correctEntityReferences(on))
            +"]]>"
  		   +"</object>"		   
  		   +"</triple></triple_list>"
@@ -982,7 +979,7 @@ public class SSAP_XMLTools
            +"<predicate>"+(po==null?ANYURI:po)+"</predicate>"
            +"<object type=\""+oo_type+"\">"
             + "<![CDATA["
-           +( oo==null?ANYURI:(correctEntityReferences(oo.replaceAll("[^\\x20-\\x7e]", "??"))))
+           +( oo==null?ANYURI:(correctEntityReferences(oo)))
            +"]]>"
            +"</object>"
 
@@ -1001,7 +998,7 @@ public class SSAP_XMLTools
 	 * Make the UPDATE SSAP message 
 	 * 
 	 * New value to insert:
-	 * @param newTripleVector the structure to store every new triple to insert. Each element of 
+	 * @param newTripleArrayList the structure to store every new triple to insert. Each element of 
 	 * the vector contains another vector formed by five string elements :
 	 * -the string representation of the new subject
 	 * -the string representation of the new predicate
@@ -1010,7 +1007,7 @@ public class SSAP_XMLTools
 	 * -the string representation of the new object type. Allowed values are: uri, literal
 	 *   
 	 * Old value to replace:
-	 * @param oldTripleVector the structure to store every old triple to replace. Each element of 
+	 * @param oldTripleArrayList the structure to store every old triple to replace. Each element of 
 	 * the vector contains another vector formed by five string elements :
 	 * -the string representation of the old subject
 	 * -the string representation of the old predicate
@@ -1021,8 +1018,8 @@ public class SSAP_XMLTools
 	 * @return a string representation of the XML answer message from the SIB 
 	 */
 	//o==old, n==new
-	public String update( Vector<Vector<String>>  newTripleVector
-			, Vector<Vector<String>>  oldTripleVector)
+	public String update( ArrayList<ArrayList<String>>  newTripleArrayList
+			, ArrayList<ArrayList<String>>  oldTripleArrayList)
 	{return 
 			"<SSAP_message><transaction_type>UPDATE</transaction_type>"
 			+"<message_type>REQUEST</message_type>"
@@ -1031,12 +1028,12 @@ public class SSAP_XMLTools
 			+"<space_id>"+ SMART_SPACE_NAME +"</space_id>"
 			+"<parameter name = \"insert_graph\" encoding = \""+"RDF-M3"+"\">"
 			//insert (NEW)
-			+this.getTripleListFromTripleVector(newTripleVector)
+			+this.getTripleListFromTripleArrayList(newTripleArrayList)
 			+"</parameter>"
 
           +"<parameter name = \"remove_graph\" encoding = \""+"RDF-M3"+"\">"
           //remove (OLD)
-          +this.getTripleListFromTripleVector(oldTripleVector)
+          +this.getTripleListFromTripleArrayList(oldTripleArrayList)
 
           +"</parameter>"
           +"<parameter name = \"confirm\">TRUE</parameter>"
@@ -1089,7 +1086,7 @@ public class SSAP_XMLTools
 	 * 
 	 * @return a string representation of the XML message to send to the SIB 
 	 */
-	public String subscribeRDF(Vector<Vector<String> > triples)
+	public String subscribeRDF(ArrayList<ArrayList<String> > triples)
 	{
 		++transaction_id;
 		subscription_id=transaction_id;
@@ -1105,7 +1102,7 @@ public class SSAP_XMLTools
 				+"<space_id>"+ SMART_SPACE_NAME +"</space_id>"
 				+"<parameter name=\"type\">RDF-M3</parameter>" 
 				+"<parameter name=\"query\">" 
-				+ this.getTripleListFromTripleVector(triples)
+				+ this.getTripleListFromTripleArrayList(triples)
 				+"</parameter>"
 				+"</SSAP_message>";        
 
@@ -1647,21 +1644,21 @@ public class SSAP_XMLTools
 	 * @param xml
 	 * @return
 	 */
-	public Vector<Vector<String>> getWQLResultNode(String xml)
+	public ArrayList<ArrayList<String>> getWQLResultNode(String xml)
 	{return getWQLEventNode(xml,"results");}
 	/**
 	 * @deprecated
 	 * @param xml
 	 * @return
 	 */
-	public Vector<Vector<String>> getWQLNewResultEventNode(String xml)
+	public ArrayList<ArrayList<String>> getWQLNewResultEventNode(String xml)
 	{return getWQLEventNode(xml,"new_results");}
 	/**
 	 * @deprecated
 	 * @param xml
 	 * @return
 	 */
-	public Vector<Vector<String>> getWQLObsoleteResultEventNode(String xml)
+	public ArrayList<ArrayList<String>> getWQLObsoleteResultEventNode(String xml)
 	{return getWQLEventNode(xml,"obsolete_results");}
 
 
@@ -1670,7 +1667,7 @@ public class SSAP_XMLTools
 	 * @param xml
 	 * @return
 	 */
-	private Vector<Vector<String>> getWQLEventNode(String xml,String ParamAttValue)
+	private ArrayList<ArrayList<String>> getWQLEventNode(String xml,String ParamAttValue)
 	{
 		if(xml==null){System.out.println("ERROR:SSAP_XMLTools:getWQLEventTriple: XML message is null");return null;}
 
@@ -1684,12 +1681,12 @@ public class SSAP_XMLTools
 		if(all_node==null /*|| all_node.isEmpty()*/)
 		{System.out.println("ERROR:SSAP_XMLTools:getWQLEventTriple:children for node_list not found");return null;}
 
-		Vector<Vector<String>> nodes=new Vector<Vector<String>>();
+		ArrayList<ArrayList<String>> nodes=new ArrayList<ArrayList<String>>();
 
 		Iterator<Element> i = all_node.iterator();
 
 		while(i.hasNext())
-		{   Vector<String> singleton=new Vector<String>();
+		{   ArrayList<String> singleton=new ArrayList<String>();
 
 		Element etriple = i.next();
 
@@ -1725,13 +1722,13 @@ public class SSAP_XMLTools
 	 * @param xml
 	 * @return
 	 */
-	public void printNodes(Vector<Vector<String>> nodes)
+	public void printNodes(ArrayList<ArrayList<String>> nodes)
 	{if(nodes==null){System.out.println("ERROR:SSAP_XMLTools:printNodes:nodes is null!");return;}
 
 	System.out.println("SSAP_XMLTools:printNodes:");
 	for(int i=0;i<nodes.size();i++)
 	{System.out.println("Line:"+i+":");
-	Vector<String> line=nodes.get(i);
+	ArrayList<String> line=nodes.get(i);
 
 	for(int j=0;j<line.size();j++)
 	{System.out.print(j+") "+line.get(j)+" ");
@@ -1742,35 +1739,35 @@ public class SSAP_XMLTools
 
 
 	/**
-	 * Returns the subject of a triple with a given triple represented ina Vector<String>
-	 * @param t A Vector<String> representing a triple
+	 * Returns the subject of a triple with a given triple represented ina ArrayList<String>
+	 * @param t A ArrayList<String> representing a triple
 	 * @return the subject of the triple
 	 */
-	public String triple_getSubject    (Vector<String> t){return t.get(0);}
+	public String triple_getSubject    (ArrayList<String> t){return t.get(0);}
 
 	/**
-	 * Returns the predicate of a triple with a given triple represented ina Vector<String>
-	 * @param t A Vector<String> representing a triple
+	 * Returns the predicate of a triple with a given triple represented ina ArrayList<String>
+	 * @param t A ArrayList<String> representing a triple
 	 * @return the predicate of the triple
 	 */
-	public String triple_getPredicate  (Vector<String> t){return t.get(1);}
+	public String triple_getPredicate  (ArrayList<String> t){return t.get(1);}
 
 	/**
-	 * Returns the object of a triple with a given triple represented ina Vector<String>
-	 * @param t A Vector<String> representing a triple
+	 * Returns the object of a triple with a given triple represented ina ArrayList<String>
+	 * @param t A ArrayList<String> representing a triple
 	 * @return the object of the triple
 	 */
-	public String triple_getObject     (Vector<String> t)
+	public String triple_getObject     (ArrayList<String> t)
 	{
 		return t.get(2);
 	}
 
 	/**
-	 * Returns the object type of a triple with a given triple represented ina Vector<String>
-	 * @param t A Vector<String> representing a triple
+	 * Returns the object type of a triple with a given triple represented ina ArrayList<String>
+	 * @param t A ArrayList<String> representing a triple
 	 * @return the object type of the triple
 	 */
-	public String triple_getObjectType (Vector<String> t){return t.get(3);}
+	public String triple_getObjectType (ArrayList<String> t){return t.get(3);}
 
 
 	/**
@@ -1778,14 +1775,14 @@ public class SSAP_XMLTools
 	 * @param t
 	 * @return
 	 */
-	public String node_getValue        (Vector<String> t){return t.get(1);}
+	public String node_getValue        (ArrayList<String> t){return t.get(1);}
 
 	/**
 	 * @deprecated
 	 * @param t
 	 * @return
 	 */
-	public String node_getType         (Vector<String> t){return t.get(0);}
+	public String node_getType         (ArrayList<String> t){return t.get(0);}
 
 
 	/**
@@ -1926,7 +1923,7 @@ public class SSAP_XMLTools
 				//insert (NEW)
 
              //   + "<![CDATA["
-                +correctEntityReferences((insGraph.replaceAll("[^\\x20-\\x7e]", "??")))
+                +correctEntityReferences(insGraph)
               //  +"]]>"
 
 
@@ -1935,7 +1932,7 @@ public class SSAP_XMLTools
     +"<parameter name = \"remove_graph\" encoding = \""+"RDF-XML"+"\">"
     //remove (OLD)
   //  + "<![CDATA["
-    +correctEntityReferences((remGraph.replaceAll("[^\\x20-\\x7e]", "??")))
+    +correctEntityReferences(remGraph)
   //  +"]]>"
 
     +"</parameter>"
@@ -1964,7 +1961,7 @@ public class SSAP_XMLTools
 				//insert (NEW)
 
                 + "<![CDATA["
-                +(insGraph.replaceAll("[^\\x20-\\x7e]", "??"))
+                + insGraph
                 +"]]>"
 
 
@@ -1973,7 +1970,7 @@ public class SSAP_XMLTools
     +"<parameter name = \"remove_graph\" encoding = \""+"RDF-XML"+"\">"
     //remove (OLD)
     + "<![CDATA["
-    +(remGraph.replaceAll("[^\\x20-\\x7e]", "??"))
+    + remGraph
     +"]]>"
 
     +"</parameter>"
@@ -1999,7 +1996,7 @@ public class SSAP_XMLTools
 				+"<space_id>"+ SMART_SPACE_NAME +"</space_id>"
 				+"<parameter name=\"insert_graph\"  encoding=\"RDF-XML\">"
 			//	+ "<![CDATA["
-			    +correctEntityReferences((graph.replaceAll("[^\\x20-\\x7e]", "??")))
+			    +correctEntityReferences(graph)
 			//    +"]]>"
 				+"</parameter>"
 				+"<parameter name = \"confirm\">TRUE</parameter>"
@@ -2024,7 +2021,7 @@ public class SSAP_XMLTools
 				+"<space_id>"+ SMART_SPACE_NAME +"</space_id>"
 				+"<parameter name=\"insert_graph\"  encoding=\"RDF-XML\">"
 				+ "<![CDATA["
-			    +(graph.replaceAll("[^\\x20-\\x7e]", "??"))
+			    + graph
 			    +"]]>"
 				+"</parameter>"
 				+"<parameter name = \"confirm\">TRUE</parameter>"
@@ -2048,7 +2045,7 @@ public class SSAP_XMLTools
 			+"<space_id>"+ SMART_SPACE_NAME +"</space_id>"
 			+"<parameter name=\"remove_graph\"  encoding=\"RDF-XML\">"
 		//	+ "<![CDATA["
-			+correctEntityReferences((graph.replaceAll("[^\\x20-\\x7e]", "??")))
+			+correctEntityReferences(graph)
 		//    +"]]>"
 			+"</parameter>"
 			+"<parameter name = \"confirm\">TRUE</parameter>"
@@ -2071,7 +2068,7 @@ public class SSAP_XMLTools
 			+"<space_id>"+ SMART_SPACE_NAME +"</space_id>"
 			+"<parameter name=\"remove_graph\"  encoding=\"RDF-XML\">"
 			+ "<![CDATA["
-			+(graph.replaceAll("[^\\x20-\\x7e]", "??"))
+			+ graph
 		    +"]]>"
 			+"</parameter>"
 			+"<parameter name = \"confirm\">TRUE</parameter>"

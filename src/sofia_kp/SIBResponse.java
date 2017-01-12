@@ -5,9 +5,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
-
-import javax.swing.DebugGraphics;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -30,9 +27,9 @@ public class SIBResponse {
 	public  String subscription_id="";
 	public  String update_id="";
 	public  String indication_sequence;
-	public Vector<Vector<String>> new_results= new Vector<Vector<String> >();
-	public Vector<Vector<String>> obsolete_results= new Vector<Vector<String> >();
-	public Vector<Vector<String>> query_results= new Vector<Vector<String> >();
+	public ArrayList<ArrayList<String>> new_results= new ArrayList<ArrayList<String> >();
+	public ArrayList<ArrayList<String>> obsolete_results= new ArrayList<ArrayList<String> >();
+	public ArrayList<ArrayList<String>> query_results= new ArrayList<ArrayList<String> >();
 	public SSAP_sparql_response sparqlquery_results= null;
 	public SSAP_sparql_response sparql_ind_new_results= null;
 	public SSAP_sparql_response sparql_ind_old_results= null;
@@ -59,9 +56,9 @@ public class SIBResponse {
 			subscription_id=subscriptionID;
 			update_id="";
 			indication_sequence = "";
-			new_results= new Vector<Vector<String> >();
-			obsolete_results= new Vector<Vector<String> >();
-			query_results= new Vector<Vector<String> >();
+			new_results= new ArrayList<ArrayList<String> >();
+			obsolete_results= new ArrayList<ArrayList<String> >();
+			query_results= new ArrayList<ArrayList<String> >();
 			sparqlquery_results= null;
 			sparql_ind_new_results= null;
 			sparql_ind_old_results= null;
@@ -146,14 +143,14 @@ public class SIBResponse {
 				{
 
 					this.queryType = "RDF-M3";
-					Vector<Vector<String>> triplev = new Vector<Vector<String>>();
+					ArrayList<ArrayList<String>> triplev = new ArrayList<ArrayList<String>>();
 					Element el = par.getChild ("triple_list");
 
 					List<Element> triples =  el.getChildren("triple");
 					Iterator<Element> it = triples.iterator();
 
 					while(it.hasNext())
-					{   Vector<String> singleton=new Vector<String>();
+					{   ArrayList<String> singleton=new ArrayList<String>();
 
 					Element etriple = it.next();
 

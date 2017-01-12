@@ -17,7 +17,7 @@
 
 package sofia_kp;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 public interface iKPIC 
 {
@@ -95,7 +95,7 @@ public interface iKPIC
      *  
      * @return a string representation of the XML answer message from the SIB 
      */     
-    public SIBResponse queryRDF( Vector<Vector<String>> queryList );
+    public SIBResponse queryRDF( ArrayList<ArrayList<String>> queryList );
     
     /**
      * Perform the INSERT procedure 
@@ -125,7 +125,7 @@ public interface iKPIC
      * 
      * @return a string representation of the XML answer message from the SIB 
      */     
-    public SIBResponse insert( Vector<Vector<String>> queryList );
+    public SIBResponse insert( ArrayList<ArrayList<String>> queryList );
     
     /**
      * Perform the REMOVE procedure 
@@ -156,7 +156,7 @@ public interface iKPIC
      * 
      * @return a string representation of the XML answer message from the SIB 
      */     
-    public SIBResponse remove( Vector<Vector<String>> queryList );
+    public SIBResponse remove( ArrayList<ArrayList<String>> queryList );
     
     
     /**
@@ -189,7 +189,7 @@ public interface iKPIC
      * Check the error state with the functions: getErrMess, getErrID
      * <p/>
      * New value to insert:
-     * @param newTripleVector the structure to store every new triple to insert. Each element of 
+     * @param newTripleArrayList the structure to store every new triple to insert. Each element of 
      * the vector contains another vector formed by five string elements :
      * -the string representation of the new subject
      * -the string representation of the new predicate
@@ -198,7 +198,7 @@ public interface iKPIC
      * -the string representation of the new object type. Allowed values are: uri, literal
      *   
      * Old value to replace:
-     * @param oldTripleVector the structure to store every old triple to replace. Each element of 
+     * @param oldTripleArrayList the structure to store every old triple to replace. Each element of 
      * the vector contains another vector formed by five string elements :
      * -the string representation of the old subject
      * -the string representation of the old predicate
@@ -209,8 +209,8 @@ public interface iKPIC
      * @return a string representation of the XML answer message from the SIB 
      */
     //o==old, n==new
-    public SIBResponse update( Vector<Vector<String>>  newTripleVector
- 		                , Vector<Vector<String>>  oldTripleVector);
+    public SIBResponse update( ArrayList<ArrayList<String>>  newTripleArrayList
+ 		                , ArrayList<ArrayList<String>>  oldTripleArrayList);
    
     
     
@@ -244,7 +244,7 @@ public interface iKPIC
      * @param properties EntityI's Property list to protect 
      * @return a string representation of the XML answer message from the SIB
      */
-    public SIBResponse insertProtection(String EntityI, Vector<String> properties);
+    public SIBResponse insertProtection(String EntityI, ArrayList<String> properties);
 
     /**
      * 
@@ -252,7 +252,7 @@ public interface iKPIC
      * @param properties EntityI's Property list protected
      * @return a string representation of the XML answer message from the SIB
      */
-    public SIBResponse removeProtection(String EntityI, Vector<String> properties);
+    public SIBResponse removeProtection(String EntityI, ArrayList<String> properties);
     
     
 }//

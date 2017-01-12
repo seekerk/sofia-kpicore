@@ -6,7 +6,7 @@
 
 package resources;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import sofia_kp.SSAP_sparql_response;
 import sofia_kp.iKPIC_subscribeHandler2;
@@ -19,17 +19,17 @@ public class Handler2 implements iKPIC_subscribeHandler2 {
 	}
 
 	@Override
-	public void kpic_RDFEventHandler(Vector<Vector<String>> newTriples,
-			Vector<Vector<String>> oldTriples, String indSequence, String subID) {
+	public void kpic_RDFEventHandler(ArrayList<ArrayList<String>> newTriples,
+			ArrayList<ArrayList<String>> oldTriples, String indSequence, String subID) {
 
 		String temp = "\nNotification " + indSequence + " id = " + subID +"\n";
 		for(int i = 0; i < newTriples.size(); i++ )
 		{
-			temp+="New triple s =" + newTriples.elementAt(i).elementAt(0) + "  + predicate" + newTriples.elementAt(i).elementAt(1) + "object =" + newTriples.elementAt(i).elementAt(2) +"\n";
+			temp+="New triple s =" + newTriples.get(i).get(0) + "  + predicate" + newTriples.get(i).get(1) + "object =" + newTriples.get(i).get(2) +"\n";
 		}
 		for(int i = 0; i < oldTriples.size(); i++ )
 		{
-			temp+="Obsolete triple s =" + oldTriples.elementAt(i).elementAt(0) + "  + predicate" + oldTriples.elementAt(i).elementAt(1) + "object =" + oldTriples.elementAt(i).elementAt(2) + "\n";
+			temp+="Obsolete triple s =" + oldTriples.get(i).get(0) + "  + predicate" + oldTriples.get(i).get(1) + "object =" + oldTriples.get(i).get(2) + "\n";
 		}
 		System.out.println(temp);
 	
