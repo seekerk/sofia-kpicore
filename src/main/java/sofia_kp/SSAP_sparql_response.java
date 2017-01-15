@@ -6,7 +6,7 @@ import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.sound.midi.SysexMessage;
 import javax.xml.parsers.DocumentBuilder;
@@ -26,7 +26,7 @@ import org.xml.sax.InputSource;
 /**
  * This class represents the SSAP RESPONSE to a generic SPARQL query.
  * This class offers methods to extract and manage the results inside the response.
- * This class is coherent with the entire library project and uses java.util.Vector instead of better performing ArrayList or similar
+ * This class is coherent with the entire library project and uses java.util.ArrayList instead of better performing ArrayList or similar
  * A refactory of this library is suggested.
  * 
  * The computation time is reduced: the instantiated object of this class loads into memory the SSAP response as a string,
@@ -39,10 +39,10 @@ import org.xml.sax.InputSource;
  */
 public class SSAP_sparql_response {
 
-	private Vector<Vector<String[]>> sparql_response_results;
-	private Vector<String> var_names;
-	private Vector<String> link_hrefs;
-	private Vector<String> booleans;
+	private ArrayList<ArrayList<String[]>> sparql_response_results;
+	private ArrayList<String> var_names;
+	private ArrayList<String> link_hrefs;
+	private ArrayList<String> booleans;
 	private int seek;
 
 	private Element resultGraph;
@@ -62,22 +62,22 @@ public class SSAP_sparql_response {
 	/**
 	 * The constructor of the SSAP_sparql_response Class
 	 * 
-	 * each result in the SSAP sparql response message is saved as a Vector of String[].
-	 * Each element of this Vector represents the detail of the "binding" element: [name, category, value, type].
+	 * each result in the SSAP sparql response message is saved as a ArrayList of String[].
+	 * Each element of this ArrayList represents the detail of the "binding" element: [name, category, value, type].
 	 * "name" is the binding name of the result element; "value" is the proper value of the result element; 
 	 * To understand the meaning of the category and type field, there is a classification of possible bindings:
 	 *
 	 * The value of a query variable "binding", which is an RDF Term, is included as the content of the binding as follows:
-	 *		category URI, for a binding element of the form: <binding><uri>U</uri></binding>
+	 *		category URI, for a binding element of the form: &lt;binding&gt;&lt;uri&gt;U&lt;/uri&gt;&lt;/binding&gt;
 	 *		category LITERAL, for a binding element of one of the forms: 
-	 *			<binding><literal>S</literal></binding> (type SIMPLE, nothing added)
-	 *			<binding><literal xml:lang="L">S</literal></binding> (TYPE WLANG, the value of the attribute "xml:lang" is added)
-	 *			<binding><literal datatype="D">S</literal></binding> (TYPE WDATT, the value of the attribute "datatype" is added)
-	 *		category BNODE, for a binding element of the form <binding><bnode>I</bnode></binding>
+	 *			&lt;binding&gt;&lt;literal&gt;S&lt;/literal&gt;&lt;/binding&gt; (type SIMPLE, nothing added)
+	 *			&lt;binding&gt;&lt;literal xml:lang="L"&gt;S&lt;/literal&gt;&lt;/binding&gt; (TYPE WLANG, the value of the attribute "xml:lang" is added)
+	 *			&lt;binding&gt;&lt;literal datatype="D"&gt;S&lt;/literal&gt;&lt;/binding&gt; (TYPE WDATT, the value of the attribute "datatype" is added)
+	 *		category BNODE, for a binding element of the form &lt;binding&gt;&lt;bnode&gt;I&lt;/bnode&gt;&lt;/binding&gt;
 	 *		category UNBOUND, for an unbound variable (no binding element for that variable is included in the result element).
 	 * In case of UNBOUND, BNODE or URI category, the "type" field is NOT present. 
 	 *
-	 * @return This function returns all the results of the SSAP sparql response message as a Vector<Vector<String[]>>. 
+	 * This function returns all the results of the SSAP sparql response message as a ArrayList&lt;ArrayList&lt;String[]&gt;&gt;. 
 	 */
 
 
@@ -91,10 +91,10 @@ public class SSAP_sparql_response {
 		this.query_type_select_ask = false;
 		this.query_type_construct_describe = false;
 
-		this.var_names=new Vector<String>();
-		this.link_hrefs=new Vector<String>();
-		this.booleans=new Vector<String>();
-		this.sparql_response_results = new Vector<Vector<String[]>>();
+		this.var_names=new ArrayList<String>();
+		this.link_hrefs=new ArrayList<String>();
+		this.booleans=new ArrayList<String>();
+		this.sparql_response_results = new ArrayList<ArrayList<String[]>>();
 
 
 		try
@@ -160,13 +160,13 @@ public class SSAP_sparql_response {
 						Iterator<Element> bindingListIter = bindingList.iterator();
 
 						//									THE SINGLE RESULT STRUCTURE, it is going to be populated
-						Vector<String[]> single_result = new Vector<String[]>();
+						ArrayList<String[]> single_result = new ArrayList<String[]>();
 
 						//				INTO <RESULT> it iterates the bindings!
 						while(bindingListIter.hasNext())
 						{
 							//										here we populate the cell_temp structure (dynamic one, to be transfered to single_cell static String[])
-							Vector<String> cell_temp = new Vector<String>();
+							ArrayList<String> cell_temp = new ArrayList<String>();
 							Element binding = bindingListIter.next();
 							List attribute = binding.getAttributes();
 
@@ -226,30 +226,30 @@ public class SSAP_sparql_response {
 								}
 							}
 
-							//										now we put the single_cell (Vector) inside the proper structure cell (which is a String[])
+							//										now we put the single_cell (ArrayList) inside the proper structure cell (which is a String[])
 							String[] single_cell = null;
 							if(cell_temp.size()==3)
 							{
 								single_cell= new String[3];
-								single_cell[VARNAME]=cell_temp.elementAt(VARNAME);
-								single_cell[CATEGORY]=cell_temp.elementAt(CATEGORY);
-								single_cell[VALUE]=cell_temp.elementAt(VALUE);
+								single_cell[VARNAME]=cell_temp.get(VARNAME);
+								single_cell[CATEGORY]=cell_temp.get(CATEGORY);
+								single_cell[VALUE]=cell_temp.get(VALUE);
 
 							}else if(cell_temp.size()==4)
 							{										
 								single_cell= new String[4];
-								single_cell[VARNAME]=cell_temp.elementAt(VARNAME);
-								single_cell[CATEGORY]=cell_temp.elementAt(CATEGORY);
-								single_cell[VALUE]=cell_temp.elementAt(VALUE);
-								single_cell[TYPE]=cell_temp.elementAt(TYPE);
+								single_cell[VARNAME]=cell_temp.get(VARNAME);
+								single_cell[CATEGORY]=cell_temp.get(CATEGORY);
+								single_cell[VALUE]=cell_temp.get(VALUE);
+								single_cell[TYPE]=cell_temp.get(TYPE);
 
 							}
 							else if(cell_temp.size()==2)//unbound in redland SIB
 							{			
 
 								single_cell= new String[3];
-								single_cell[VARNAME]=cell_temp.elementAt(VARNAME);
-								single_cell[CATEGORY]=cell_temp.elementAt(CATEGORY);
+								single_cell[VARNAME]=cell_temp.get(VARNAME);
+								single_cell[CATEGORY]=cell_temp.get(CATEGORY);
 								single_cell[VALUE]=null;
 							}
 							//										else
@@ -299,10 +299,10 @@ public class SSAP_sparql_response {
 		this.query_type_select_ask = false;
 		this.query_type_construct_describe = false;
 
-		this.var_names=new Vector<String>();
-		this.link_hrefs=new Vector<String>();
-		this.booleans=new Vector<String>();
-		this.sparql_response_results = new Vector<Vector<String[]>>();
+		this.var_names=new ArrayList<String>();
+		this.link_hrefs=new ArrayList<String>();
+		this.booleans=new ArrayList<String>();
+		this.sparql_response_results = new ArrayList<ArrayList<String[]>>();
 
 		if(ssap_sparql_response==null)
 		{
@@ -404,13 +404,13 @@ public class SSAP_sparql_response {
 										int varIndex = 0;
 
 										//									THE SINGLE RESULT STRUCTURE, it is going to be populated
-										Vector<String[]> single_result = new Vector<String[]>();
+										ArrayList<String[]> single_result = new ArrayList<String[]>();
 
 										//				INTO <RESULT> it iterates the bindings!
 										while(bindingListIter.hasNext())
 										{
 											//										here we populate the cell_temp structure (dynamic one, to be transfered to single_cell static String[])
-											Vector<String> cell_temp = new Vector<String>();
+											ArrayList<String> cell_temp = new ArrayList<String>();
 											Element binding = bindingListIter.next();
 											List attribute = binding.getAttributes();
 
@@ -470,39 +470,39 @@ public class SSAP_sparql_response {
 												}
 											}
 
-											//										now we put the single_cell (Vector) inside the proper structure cell (which is a String[])
+											//										now we put the single_cell (ArrayList) inside the proper structure cell (which is a String[])
 											String[] single_cell = null;
 											if(cell_temp.size()==3)
 											{
 												single_cell= new String[3];
-												single_cell[VARNAME]=cell_temp.elementAt(VARNAME);
-												single_cell[CATEGORY]=cell_temp.elementAt(CATEGORY);
-												single_cell[VALUE]=cell_temp.elementAt(VALUE);
+												single_cell[VARNAME]=cell_temp.get(VARNAME);
+												single_cell[CATEGORY]=cell_temp.get(CATEGORY);
+												single_cell[VALUE]=cell_temp.get(VALUE);
 
 											}else if(cell_temp.size()==4)
 											{										
 												single_cell= new String[4];
-												single_cell[VARNAME]=cell_temp.elementAt(VARNAME);
-												single_cell[CATEGORY]=cell_temp.elementAt(CATEGORY);
-												single_cell[VALUE]=cell_temp.elementAt(VALUE);
-												single_cell[TYPE]=cell_temp.elementAt(TYPE);
+												single_cell[VARNAME]=cell_temp.get(VARNAME);
+												single_cell[CATEGORY]=cell_temp.get(CATEGORY);
+												single_cell[VALUE]=cell_temp.get(VALUE);
+												single_cell[TYPE]=cell_temp.get(TYPE);
 
 											}
 											else if(cell_temp.size()==2)//unbound in redland SIB
 											{			
 												//System.out.println("HELLO!!!");
 												single_cell= new String[3];
-												single_cell[VARNAME]=cell_temp.elementAt(VARNAME);
-												single_cell[CATEGORY]=cell_temp.elementAt(CATEGORY);
+												single_cell[VARNAME]=cell_temp.get(VARNAME);
+												single_cell[CATEGORY]=cell_temp.get(CATEGORY);
 												single_cell[VALUE]=null;
 											}
 
 											//Here we check if there are unbound variables omitted in the xml.
 											//If this happens we put an unbound cell in our representation
-											while(!single_cell[VARNAME].equals(this.var_names.elementAt(varIndex)))
+											while(!single_cell[VARNAME].equals(this.var_names.get(varIndex)))
 											{
 												String[] dummy_cell = new String[3];
-												dummy_cell[VARNAME]=this.var_names.elementAt(varIndex);
+												dummy_cell[VARNAME]=this.var_names.get(varIndex);
 												dummy_cell[CATEGORY]="unbound";
 												dummy_cell[VALUE]=null;
 												single_result.add(dummy_cell);
@@ -562,7 +562,7 @@ public class SSAP_sparql_response {
 
 	/**
 	 * Constructor with a Jdom2 Document representing the response as input
-	 * @param select_ask_xmlElement
+	 * @param ssap_sparql_response_element
 	 */
 	public SSAP_sparql_response(Element ssap_sparql_response_element)
 	{		
@@ -574,10 +574,10 @@ public class SSAP_sparql_response {
 		this.query_type_select_ask = false;
 		this.query_type_construct_describe = false;
 
-		this.var_names=new Vector<String>();
-		this.link_hrefs=new Vector<String>();
-		this.booleans=new Vector<String>();
-		this.sparql_response_results = new Vector<Vector<String[]>>();
+		this.var_names=new ArrayList<String>();
+		this.link_hrefs=new ArrayList<String>();
+		this.booleans=new ArrayList<String>();
+		this.sparql_response_results = new ArrayList<ArrayList<String[]>>();
 
 
 		try
@@ -639,7 +639,7 @@ public class SSAP_sparql_response {
 						Iterator<Element> bindingListIter = bindingList.iterator();
 
 						//									THE SINGLE RESULT STRUCTURE, it is going to be populated
-						Vector<String[]> single_result = new Vector<String[]>();
+						ArrayList<String[]> single_result = new ArrayList<String[]>();
 
 
 						int varIndex = 0;
@@ -647,7 +647,7 @@ public class SSAP_sparql_response {
 						while(bindingListIter.hasNext())
 						{
 							//										here we populate the cell_temp structure (dynamic one, to be transfered to single_cell static String[])
-							Vector<String> cell_temp = new Vector<String>();
+							ArrayList<String> cell_temp = new ArrayList<String>();
 							Element binding = bindingListIter.next();
 							List attribute = binding.getAttributes();
 
@@ -707,39 +707,39 @@ public class SSAP_sparql_response {
 								}
 							}
 
-							//										now we put the single_cell (Vector) inside the proper structure cell (which is a String[])
+							//										now we put the single_cell (ArrayList) inside the proper structure cell (which is a String[])
 							String[] single_cell = null;
 							if(cell_temp.size()==3)
 							{
 								single_cell= new String[3];
-								single_cell[VARNAME]=cell_temp.elementAt(VARNAME);
-								single_cell[CATEGORY]=cell_temp.elementAt(CATEGORY);
-								single_cell[VALUE]=cell_temp.elementAt(VALUE);
+								single_cell[VARNAME]=cell_temp.get(VARNAME);
+								single_cell[CATEGORY]=cell_temp.get(CATEGORY);
+								single_cell[VALUE]=cell_temp.get(VALUE);
 
 							}else if(cell_temp.size()==4)
 							{										
 								single_cell= new String[4];
-								single_cell[VARNAME]=cell_temp.elementAt(VARNAME);
-								single_cell[CATEGORY]=cell_temp.elementAt(CATEGORY);
-								single_cell[VALUE]=cell_temp.elementAt(VALUE);
-								single_cell[TYPE]=cell_temp.elementAt(TYPE);
+								single_cell[VARNAME]=cell_temp.get(VARNAME);
+								single_cell[CATEGORY]=cell_temp.get(CATEGORY);
+								single_cell[VALUE]=cell_temp.get(VALUE);
+								single_cell[TYPE]=cell_temp.get(TYPE);
 
 							}
 							else if(cell_temp.size()==2)//unbound in redland SIB
 							{			
 
 								single_cell= new String[3];
-								single_cell[VARNAME]=cell_temp.elementAt(VARNAME);
-								single_cell[CATEGORY]=cell_temp.elementAt(CATEGORY);
+								single_cell[VARNAME]=cell_temp.get(VARNAME);
+								single_cell[CATEGORY]=cell_temp.get(CATEGORY);
 								single_cell[VALUE]=null;
 							}
 
 							//Here we check if there are unbound variables omitted in the xml.
 							//If this happens we put an unbound cell in our representation
-							while(!single_cell[VARNAME].equals(this.var_names.elementAt(varIndex)))
+							while(!single_cell[VARNAME].equals(this.var_names.get(varIndex)))
 							{
 								String[] dummy_cell = new String[3];
-								dummy_cell[VARNAME]=this.var_names.elementAt(varIndex);
+								dummy_cell[VARNAME]=this.var_names.get(varIndex);
 								dummy_cell[CATEGORY]="unbound";
 								dummy_cell[VALUE]=null;
 								single_result.add(dummy_cell);
@@ -797,10 +797,10 @@ public class SSAP_sparql_response {
 		for (int i = 0; i < sparql_response_results.size();i++)
 		{
 			temp = temp + i + ": " ;
-			for (int j = 0; j< sparql_response_results.elementAt(i).size();j++)
+			for (int j = 0; j< sparql_response_results.get(i).size();j++)
 			{
-				if(sparql_response_results.elementAt(i).elementAt(j)!= null)
-					temp = temp+ SSAP_sparql_response.getCellName(sparql_response_results.elementAt(i).elementAt(j))+ " = " + SSAP_sparql_response.getCellValue(sparql_response_results.elementAt(i).elementAt(j)) + " ";
+				if(sparql_response_results.get(i).get(j)!= null)
+					temp = temp+ SSAP_sparql_response.getCellName(sparql_response_results.get(i).get(j))+ " = " + SSAP_sparql_response.getCellValue(sparql_response_results.get(i).get(j)) + " ";
 			}
 			temp = temp + "\n" ;
 		}
@@ -829,10 +829,10 @@ public class SSAP_sparql_response {
 		this.query_type_select_ask = false;
 		this.query_type_construct_describe = false;
 
-		this.var_names=new Vector<String>();
-		this.link_hrefs=new Vector<String>();
-		this.booleans=new Vector<String>();
-		this.sparql_response_results = new Vector<Vector<String[]>>();
+		this.var_names=new ArrayList<String>();
+		this.link_hrefs=new ArrayList<String>();
+		this.booleans=new ArrayList<String>();
+		this.sparql_response_results = new ArrayList<ArrayList<String[]>>();
 
 		if(select_ask_response_String==null)
 		{
@@ -907,13 +907,13 @@ public class SSAP_sparql_response {
 						Iterator<Element> bindingListIter = bindingList.iterator();
 
 						//									THE SINGLE RESULT STRUCTURE, it is going to be populated
-						Vector<String[]> single_result = new Vector<String[]>();
+						ArrayList<String[]> single_result = new ArrayList<String[]>();
 
 						//				INTO <RESULT> it iterates the bindings!
 						while(bindingListIter.hasNext())
 						{
 							//										here we populate the cell_temp structure (dynamic one, to be transfered to single_cell static String[])
-							Vector<String> cell_temp = new Vector<String>();
+							ArrayList<String> cell_temp = new ArrayList<String>();
 							Element binding = bindingListIter.next();
 							List attribute = binding.getAttributes();
 
@@ -974,30 +974,30 @@ public class SSAP_sparql_response {
 
 							}
 
-							//										now we put the single_cell (Vector) inside the proper structure cell (which is a String[])
+							//										now we put the single_cell (ArrayList) inside the proper structure cell (which is a String[])
 							String[] single_cell = null;
 							if(cell_temp.size()==3)
 							{
 								single_cell= new String[3];
-								single_cell[VARNAME]=cell_temp.elementAt(VARNAME);
-								single_cell[CATEGORY]=cell_temp.elementAt(CATEGORY);
-								single_cell[VALUE]=cell_temp.elementAt(VALUE);
+								single_cell[VARNAME]=cell_temp.get(VARNAME);
+								single_cell[CATEGORY]=cell_temp.get(CATEGORY);
+								single_cell[VALUE]=cell_temp.get(VALUE);
 
 							}else if(cell_temp.size()==4)
 							{										
 								single_cell= new String[4];
-								single_cell[VARNAME]=cell_temp.elementAt(VARNAME);
-								single_cell[CATEGORY]=cell_temp.elementAt(CATEGORY);
-								single_cell[VALUE]=cell_temp.elementAt(VALUE);
-								single_cell[TYPE]=cell_temp.elementAt(TYPE);
+								single_cell[VARNAME]=cell_temp.get(VARNAME);
+								single_cell[CATEGORY]=cell_temp.get(CATEGORY);
+								single_cell[VALUE]=cell_temp.get(VALUE);
+								single_cell[TYPE]=cell_temp.get(TYPE);
 
 							}
 							else if(cell_temp.size()==2)//unbound in redland SIB
 							{			
 
 								single_cell= new String[3];
-								single_cell[VARNAME]=cell_temp.elementAt(VARNAME);
-								single_cell[CATEGORY]=cell_temp.elementAt(CATEGORY);
+								single_cell[VARNAME]=cell_temp.get(VARNAME);
+								single_cell[CATEGORY]=cell_temp.get(CATEGORY);
 								single_cell[VALUE]=null;
 							}
 							//										else
@@ -1081,7 +1081,7 @@ public class SSAP_sparql_response {
 	 * This method is public
 	 * @return
 	 */
-	public Vector<String> getVariablesNames(){
+	public ArrayList<String> getVariablesNames(){
 		return this.var_names;
 	}
 
@@ -1090,9 +1090,9 @@ public class SSAP_sparql_response {
 	 * (containing a relative URI that provides a link to some additional metadata about the query results) that could
 	 * appear after any variable elements that are present.
 	 * 
-	 * @return Returns the ordered sequence of links contained in the <head> element of the SSAP message
+	 * @return Returns the ordered sequence of links contained in the "head" element of the SSAP message
 	 */
-	public Vector<String> getLinksHrefs(){
+	public ArrayList<String> getLinksHrefs(){
 		return this.link_hrefs;
 	}
 
@@ -1100,7 +1100,7 @@ public class SSAP_sparql_response {
 	 * Returns the ordered sequence of results
 	 * @return
 	 */
-	public Vector<Vector<String[]>> getResults(){
+	public ArrayList<ArrayList<String[]>> getResults(){
 		return this.sparql_response_results;
 	}
 
@@ -1268,7 +1268,7 @@ public class SSAP_sparql_response {
 	 * This method is public.
 	 * @return
 	 */
-	public Vector<String> getBooleans() {
+	public ArrayList<String> getBooleans() {
 		return this.booleans;
 
 	}
@@ -1284,9 +1284,9 @@ public class SSAP_sparql_response {
 	/**
 	 * 
 	 * @param index
-	 * @return a Vector<String[]> representing the single result row referred by the index
+	 * @return a ArrayList of String[] representing the single result row referred by the index
 	 */
-	public Vector<String[]> getRow(int index){
+	public ArrayList<String[]> getRow(int index){
 
 		//		TODO: maybe add a "Throws Exception" declaration to avoid syserr messages
 		if(this.sparql_response_results.size()<=index){
@@ -1294,17 +1294,17 @@ public class SSAP_sparql_response {
 			//			return null;
 			//	System.exit(1);
 		}
-		Vector<String[]> single_result_vector = this.sparql_response_results.elementAt(index);
+		ArrayList<String[]> single_result_vector = this.sparql_response_results.get(index);
 		return single_result_vector;
 	}
 
 	/**
-	 * Returns a Vector<String[]> representing the single result row referred by the seek+1 value
+	 * Returns a ArrayList of String[] representing the single result row referred by the seek+1 value
 	 * This method updates the seek value before returning the row.
 	 * @return
 	 * @deprecated
 	 */
-	public Vector<String[]> getNextRow(){
+	public ArrayList<String[]> getNextRow(){
 
 		//		UPDATE SEEK VALUE!
 		this.seek(seek+1);
@@ -1315,7 +1315,7 @@ public class SSAP_sparql_response {
 			return null;
 			//	System.exit(1);
 		}
-		Vector<String[]> single_result_vector = this.sparql_response_results.elementAt(this.getSeek());
+		ArrayList<String[]> single_result_vector = this.sparql_response_results.get(this.getSeek());
 		return single_result_vector;
 	}
 
@@ -1323,7 +1323,7 @@ public class SSAP_sparql_response {
 	 * Returns the result correspondding to the current value of seek
 	 * @return a row of results
 	 */
-	public Vector<String[]> getRow(){
+	public ArrayList<String[]> getRow(){
 
 
 		if(this.sparql_response_results.size()==this.getSeek())
@@ -1331,7 +1331,7 @@ public class SSAP_sparql_response {
 			System.err.println("Already at the last element. Nothing done.");
 			return null;	
 		}
-		Vector<String[]> single_result_vector = this.sparql_response_results.elementAt(this.seek);
+		ArrayList<String[]> single_result_vector = this.sparql_response_results.get(this.seek);
 		return single_result_vector;
 	}
 
@@ -1389,21 +1389,21 @@ public class SSAP_sparql_response {
 
 
 	/**
-	 * This method returns all the <binding> elements with the specified variable name
+	 * This method returns all the "binding" elements with the specified variable name
 	 * @param varname
-	 * @return return a Vector<String[]> with all the <binding> elements containing the specified variable name
+	 * @return return a ArrayList of String[]  with all the "binding" elements containing the specified variable name
 	 */
-	public Vector<String[]> getResultsForVar(String varname){
+	public ArrayList<String[]> getResultsForVar(String varname){
 
-		Vector<String[]> res = new Vector<String[]>();
+		ArrayList<String[]> res = new ArrayList<String[]>();
 
 		for (int i = 0; i < this.sparql_response_results.size(); i++)
 		{
-			Vector<String[]> single_result_vector = sparql_response_results.elementAt(i);
+			ArrayList<String[]> single_result_vector = sparql_response_results.get(i);
 
 			for (int j = 0; j < single_result_vector.size(); j++) 
 			{
-				String[] row = single_result_vector.elementAt(j);
+				String[] row = single_result_vector.get(j);
 				if(row[0].equals(varname)){
 					res.add(row);
 				}

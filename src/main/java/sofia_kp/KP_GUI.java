@@ -605,7 +605,7 @@ public class KP_GUI  extends Panel implements ActionListener, iKPIC_subscribeHan
 			taMemo.append("It is "+myresponse.hasBooleans()+" that has boolean value\n");
 			if(myresponse.hasBooleans())
 			{
-				taMemo.append("Boolean is "+myresponse.getBooleans().firstElement() +"\n");
+				taMemo.append("Boolean is "+myresponse.getBooleans().get(0) +"\n");
 			}
 			taMemo.append("-------------------------GET RESULTS--------------------------------\n");
 			taMemo.append("It is "+myresponse.hasResults()+" that has results\n");
@@ -1028,8 +1028,8 @@ public class KP_GUI  extends Panel implements ActionListener, iKPIC_subscribeHan
 	/*____________________________________________________________________*/
 	/**
 	 * Simple implementation of the event handler
-	 * @param the string representation of the XML event message received from the SIB
-	 * @see sofia_kp.kp_subscribeHandler#kp_SIBEventHandler(java.lang.String)
+	 * param the string representation of the XML event message received from the SIB
+	 * see sofia_kp.kp_subscribeHandler#kp_SIBEventHandler(java.lang.String)
 	 */
 	//@Override
 	//*****************************************************************************

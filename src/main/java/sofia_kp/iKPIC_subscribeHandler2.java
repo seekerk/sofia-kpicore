@@ -14,15 +14,6 @@ public interface iKPIC_subscribeHandler2 {
 	
 	String subID = "";
 
-    /**
-     * This method is the handler for event 
-	 * messages received from the SIB
-	 *
-     * @param xml the string representation of the XML event message received from the SIB
-     * 
-     */
-	//public void kpic_SIBEventHandler(String xml);
-	
 	public void kpic_RDFEventHandler(ArrayList<ArrayList<String>> newTriples, ArrayList<ArrayList<String>> oldTriples, String indSequence, String subID );
 	
 	public void kpic_SPARQLEventHandler(SSAP_sparql_response newResults, SSAP_sparql_response oldResults, String indSequence, String subID );

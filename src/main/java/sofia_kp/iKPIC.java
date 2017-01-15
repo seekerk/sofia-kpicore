@@ -26,7 +26,7 @@ public interface iKPIC
      * Set the event handler
      * @param eh an object that implement the kp_subscribeHandler interface
      * 
-     * @see sofia_kp_old.iKPIC_subscribeHandler#kpic_SIBEventHandler(java.lang.String) "SIB Event handler"
+     * @see sofia_kp.iKPIC_subscribeHandler#kpic_SIBEventHandler(java.lang.String) "SIB Event handler"
      *
      */
     public void setEventHandler(iKPIC_subscribeHandler eh);
@@ -162,7 +162,7 @@ public interface iKPIC
     /**
      * Perform the UPDATE procedure 
      * Check the error state with the functions: getErrMess, getErrID
-     * <p/>
+     * 
      * New value to insert:
      * @param sn the string representation of the subject.
      * @param pn the string representation of the predicate. The value 'any' means any value
@@ -187,7 +187,7 @@ public interface iKPIC
     /**
      * Perform the UPDATE procedure 
      * Check the error state with the functions: getErrMess, getErrID
-     * <p/>
+     * 
      * New value to insert:
      * @param newTripleArrayList the structure to store every new triple to insert. Each element of 
      * the vector contains another vector formed by five string elements :

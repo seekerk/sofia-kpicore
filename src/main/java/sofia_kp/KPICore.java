@@ -620,7 +620,7 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 	 * Set the event SIB handler
 	 * @param eh an object that implement the kp_subscribeHandler interface
 	 * 
-	 * @see sofia_kp_old.iKPIC_subscribeHandler#kpic_SIBEventHandler(java.lang.String) "SIB Event handler"
+	 * @see sofia_kp.iKPIC_subscribeHandler#kpic_SIBEventHandler(java.lang.String) "SIB Event handler"
 	 */
 	@Override
 	@Deprecated
@@ -897,7 +897,7 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 	/**
 	 * Perform the UPDATE procedure 
 	 * Check the error state with the functions: getErrMess, getErrID
-	 * <p/>
+	 * 
 	 * New value to insert:
 	 * @param sn the string representation of the subject.
 	 * @param pn the string representation of the predicate. 
@@ -927,7 +927,7 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 	 * Perfor a SPARQL update on SIBs supporting it
 	 * @param sparql_update a SPARQL update query
 	 * @return the SIB answer
-	 * @Todo This method currently supports sparql update for SIB 0.9 only with protocol version = 0 (default) 
+	 * TODO: This method currently supports sparql update for SIB 0.9 only with protocol version = 0 (default) 
 	 */
 
 
@@ -949,8 +949,8 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 	/**
 	 * Perform the UPDATE procedure 
 	 * Check the error state with the functions: getErrMess, getErrID
-	 * <p/>
-	 * New value to insert:
+         * 
+         * New value to insert:
 	 * @param newTripleArrayList the structure to store every new triple to insert. Each element of 
 	 * the vector contains another vector formed by five string elements :
 	 * -the string representation of the new subject
@@ -988,7 +988,7 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 
 	/**
 	 * Remove a persistent update
-	 * @param rule_id the id of the persistent update
+	 * @param update_id the id of the persistent update
 	 * @return the SIB response message
 	 */
 	public SIBResponse cancel_persistent_update(String update_id)

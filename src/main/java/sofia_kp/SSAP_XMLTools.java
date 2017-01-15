@@ -1719,8 +1719,7 @@ public class SSAP_XMLTools
 
 	/**
 	 * @deprecated
-	 * @param xml
-	 * @return
+	 * @param nodes list of nodes
 	 */
 	public void printNodes(ArrayList<ArrayList<String>> nodes)
 	{if(nodes==null){System.out.println("ERROR:SSAP_XMLTools:printNodes:nodes is null!");return;}
@@ -1739,22 +1738,22 @@ public class SSAP_XMLTools
 
 
 	/**
-	 * Returns the subject of a triple with a given triple represented ina ArrayList<String>
-	 * @param t A ArrayList<String> representing a triple
+	 * Returns the subject of a triple with a given triple represented ina ArrayList of String
+	 * @param t A ArrayList of String representing a triple
 	 * @return the subject of the triple
 	 */
 	public String triple_getSubject    (ArrayList<String> t){return t.get(0);}
 
 	/**
-	 * Returns the predicate of a triple with a given triple represented ina ArrayList<String>
-	 * @param t A ArrayList<String> representing a triple
+	 * Returns the predicate of a triple with a given triple represented ina ArrayList of String
+	 * @param t A ArrayList of String representing a triple
 	 * @return the predicate of the triple
 	 */
 	public String triple_getPredicate  (ArrayList<String> t){return t.get(1);}
 
 	/**
-	 * Returns the object of a triple with a given triple represented ina ArrayList<String>
-	 * @param t A ArrayList<String> representing a triple
+	 * Returns the object of a triple with a given triple represented ina ArrayList of String
+	 * @param t A ArrayList of String representing a triple
 	 * @return the object of the triple
 	 */
 	public String triple_getObject     (ArrayList<String> t)
@@ -1763,8 +1762,8 @@ public class SSAP_XMLTools
 	}
 
 	/**
-	 * Returns the object type of a triple with a given triple represented ina ArrayList<String>
-	 * @param t A ArrayList<String> representing a triple
+	 * Returns the object type of a triple with a given triple represented ina ArrayList of String
+	 * @param t A ArrayList of String representing a triple
 	 * @return the object type of the triple
 	 */
 	public String triple_getObjectType (ArrayList<String> t){return t.get(3);}
@@ -1772,15 +1771,15 @@ public class SSAP_XMLTools
 
 	/**
 	 * @deprecated
-	 * @param t
-	 * @return
+	 * @param t node
+	 * @return node value
 	 */
 	public String node_getValue        (ArrayList<String> t){return t.get(1);}
 
 	/**
 	 * @deprecated
-	 * @param t
-	 * @return
+	 * @param t node
+	 * @return type of node
 	 */
 	public String node_getType         (ArrayList<String> t){return t.get(0);}
 
@@ -1839,7 +1838,7 @@ public class SSAP_XMLTools
 
 	/**
 	 * This method corrects the 5 predefined entity references in XML which may occur in the sparql query string
-	 * @param query_string:  the SPARQL query to be transformed 
+	 * @param query:  the SPARQL query to be transformed 
 	 * @return the query with correct substitution of the xml entities
 	 * 
 	 */
@@ -1858,8 +1857,7 @@ public class SSAP_XMLTools
 
 	/**
 	 * Make the SSAP  message to be sent to the SIB to perform SPARQL queries in SIBs supporting it
-	 * @param insGraph graph to be inserted
-	 * @param remGraph graph to be removed
+         * @param sparql_update SPARQL request
 	 * @return  SSAP  message to be sent to the SIB to support SPARQL queries in SIBs supporting it
 	 */
 
