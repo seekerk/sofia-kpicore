@@ -3,7 +3,7 @@ apply plugin: "application"
 apply plugin: 'maven'
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.10'
+    gradleVersion = '2.13'
 }
 
 mainClassName = "sofia_kp.KP_GUI"
