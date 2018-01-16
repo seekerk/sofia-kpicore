@@ -1737,7 +1737,7 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 
 
 	/**
-	 * @deprecated
+	 * @ deprecated
 	 */
 
 	//	public boolean remove_special(String s,String p,String o,String s_type,String o_type)
