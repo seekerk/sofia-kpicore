@@ -3,3 +3,5 @@
 /dist/
 .gradle
 /.nb-gradle/
+.idea/
+sofia-kpicore.iml
