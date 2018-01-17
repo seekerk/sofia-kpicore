@@ -8,7 +8,7 @@ Original version available at [https://sourceforge.net/projects/smartm3-javakpi]
 
 [https://jitpack.io/#seekerk/sofia-kpicore](https://jitpack.io/#seekerk/sofia-kpicore)
 
-To install the library add: 
+To use core part of library just add: 
  
    ```gradle
    repositories { 
@@ -16,6 +16,17 @@ To install the library add:
         maven { url "https://jitpack.io" }
    }
    dependencies {
-         compile 'com.github.seekerk:sofia-kpicore:master-SNAPSHOT'
+        compile 'com.github.seekerk.sofia-kpicore:core:0.7.1.4'
+   }
+   ```  
+To use gui part of library just add:
+
+   ```gradle
+   repositories { 
+        jcenter()
+        maven { url "https://jitpack.io" }
+   }
+   dependencies {
+        compile 'com.github.seekerk.sofia-kpicore:gui:0.7.1.4'
    }
    ```  
