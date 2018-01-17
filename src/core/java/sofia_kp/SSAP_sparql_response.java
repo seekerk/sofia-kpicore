@@ -1037,7 +1037,6 @@ public class SSAP_sparql_response {
 
 	/**
 	 * This method can be used to remove spaces, tabulations, new lines and other characters not needed for computation, but for visualization 
-	 * @param human readable sparql_response
 	 * @return sparql_response without characters not needed for computation
 	 */
 	private String formatString(String sparql_res) {

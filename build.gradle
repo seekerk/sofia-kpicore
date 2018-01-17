@@ -1,28 +1,50 @@
 apply plugin: "java"
-apply plugin: "application"
+//apply plugin: "application"
 apply plugin: 'maven'
 
-mainClassName = "sofia_kp.KP_GUI"
-
-jar {
-    manifest.attributes("Main-Class": mainClassName);
-}
+//mainClassName = "sofia_kp.KP_GUI"
 
 group = 'com.github.seekerk'
+version = 0.7
 
 repositories {
     mavenCentral()
 }
 
+sourceSets {
+    core
+    gui
+}
+
+sourceSets.all { set ->
+    def jarTask = task("${set.name}Jar", type: Jar) {
+        baseName = "$set.name"
+        from set.output
+    }
+
+    artifacts {
+        archives jarTask
+    }
+}
+
 dependencies {
     // https://mvnrepository.com/artifact/org.jdom/jdom2
-    compile group: 'org.jdom', name: 'jdom2', version: '2.0.6'
+    coreCompile group: 'org.jdom', name: 'jdom2', version: '2.0.6'
     // https://mvnrepository.com/artifact/com.hp.hpl.jena/jena
-    compile group: 'com.hp.hpl.jena', name: 'jena', version: '2.6.4'
+    guiCompile group: 'com.hp.hpl.jena', name: 'jena', version: '2.6.4'
 
-    // https://mvnrepository.com/artifact/xerces/xercesImpl
-    compile group: 'xerces', name: 'xercesImpl', version: '2.11.0'
+    guiCompile sourceSets.core.output
+    runtime configurations.coreRuntime
+    runtime configurations.guiRuntime
 }
+
+jar {
+    //manifest.attributes("Main-Class": mainClassName);
+    from sourceSets.core.output
+    from sourceSets.gui.output
+}
+
+
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
@@ -42,6 +64,8 @@ artifacts {
 // To specify a license in the pom:
 install {
   repositories.mavenInstaller {
+	addFilter('core') { artifact, file -> artifact.name.endsWith('core') }
+	addFilter('gui') { artifact, file -> artifact.name.endsWith('gui') }
     pom.project {
       licenses {
         license {
