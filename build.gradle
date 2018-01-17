@@ -1,6 +1,7 @@
 apply plugin: "java"
 //apply plugin: "application"
 apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 //mainClassName = "sofia_kp.KP_GUI"
 
@@ -29,7 +30,7 @@ sourceSets.all { set ->
 
 dependencies {
     // https://mvnrepository.com/artifact/org.jdom/jdom2
-    coreCompile group: 'org.jdom', name: 'jdom2', version: '2.0.6'
+    coreImplementation group: 'org.jdom', name: 'jdom2', version: '2.0.6'
     // https://mvnrepository.com/artifact/com.hp.hpl.jena/jena
     guiCompile group: 'com.hp.hpl.jena', name: 'jena', version: '2.6.4'
 
