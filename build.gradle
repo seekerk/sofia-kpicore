@@ -2,8 +2,6 @@ apply plugin: "java"
 //apply plugin: "application"
 apply plugin: 'maven'
 
-//mainClassName = "sofia_kp.KP_GUI"
-
 group = 'com.github.seekerk'
 version = 0.7
 
@@ -16,12 +14,17 @@ sourceSets {
     gui
 }
 
+def mainClassName = "sofia_kp.KP_GUI"
+
 sourceSets.all { set ->
     def jarTask = task("${set.name}Jar", type: Jar) {
         baseName = "$set.name"
         from set.output
         if ("${set.name}".compareTo("core") == 0) {
             from { configurations."${set.name}Compile".collect { it.isDirectory() ? it : zipTree(it) } }
+        }
+        if ("${set.name}".compareTo("gui") == 0) {
+            manifest.attributes("Main-Class": mainClassName);
         }
     }
 
@@ -42,9 +45,17 @@ dependencies {
 }
 
 jar {
-    //manifest.attributes("Main-Class": mainClassName);
+    manifest.attributes("Main-Class": mainClassName);
     from sourceSets.core.output
     from sourceSets.gui.output
+}
+
+task fatJar(type: Jar) {
+    manifest.attributes("Main-Class": mainClassName);
+    baseName = project.name + '-all'
+    from { configurations.coreCompile.collect { it.isDirectory() ? it : zipTree(it) } }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
 
 // To specify a license in the pom:
