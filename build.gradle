@@ -34,16 +34,22 @@ sourceSets.all { set ->
         from sourceSets."${set.name}".allSource
     }
 
-    def javadocTask = task("${set.name}JavadocJar", type: Jar, dependsOn: "javadoc") {
+    def javadocJarTask = task("${set.name}JavadocJar", type: Jar, dependsOn: "${set.name}Javadoc") {
         baseName = "$set.name"
         classifier = 'javadoc'
-        from javadoc.destinationDir
+        from file("${buildDir}/docs/${set.name}javadoc")
+    }
+
+    task("${set.name}Javadoc", type: Javadoc) {
+        source = {sourceSets."${set.name}".allJava}
+        classpath = sourceSets."${set.name}".compileClasspath
+        destinationDir = file("${buildDir}/docs/${set.name}javadoc")
     }
 
     artifacts {
         archives jarTask
         archives sourceTask
-        archives javadocTask
+        archives javadocJarTask
     }
 }
 
