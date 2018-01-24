@@ -16,6 +16,8 @@ sourceSets {
 
 def mainClassName = "sofia_kp.KP_GUI"
 
+task testJavadoc
+
 sourceSets.all { set ->
     def jarTask = task("${set.name}Jar", type: Jar) {
         baseName = "$set.name"
@@ -45,10 +47,6 @@ sourceSets.all { set ->
         archives sourceTask
         archives javadocTask
     }
-}
-
-def testjavadocTask = task("testJavadoc", type: Javadoc) {
-    // stub for javadoc task for test subset
 }
 
 dependencies {
