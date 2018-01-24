@@ -28,8 +28,22 @@ sourceSets.all { set ->
         }
     }
 
+    def sourceTask = task("${set.name}SourcesJar", type: Jar, dependsOn: "${set.name}Classes") {
+        baseName = "$set.name"
+        classifier = 'sources'
+        from sourceSets."${set.name}".allSource
+    }
+
+    def javadocTask = task("${set.name}JavadocJar", type: Jar, dependsOn: "${set.name}Javadoc") {
+        baseName = "$set.name"
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
     artifacts {
         archives jarTask
+        archives sourceTask
+        archives javadocTask
     }
 }
 
