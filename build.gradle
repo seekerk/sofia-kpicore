@@ -28,7 +28,7 @@ sourceSets.all { set ->
         }
     }
 
-    def sourceTask = task("${set.name}SourcesJar", type: Jar, dependsOn: "${set.name}Classes") {
+    def sourceTask = task("${set.name}SourcesJar", type: Jar, dependsOn: "classes") {
         baseName = "$set.name"
         classifier = 'sources'
         from sourceSets."${set.name}".allSource
