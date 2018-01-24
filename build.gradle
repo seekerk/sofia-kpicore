@@ -16,8 +16,6 @@ sourceSets {
 
 def mainClassName = "sofia_kp.KP_GUI"
 
-task testJavadoc
-
 sourceSets.all { set ->
     def jarTask = task("${set.name}Jar", type: Jar) {
         baseName = "$set.name"
@@ -36,7 +34,7 @@ sourceSets.all { set ->
         from sourceSets."${set.name}".allSource
     }
 
-    def javadocTask = task("${set.name}JavadocJar", type: Jar, dependsOn: "${set.name}Javadoc") {
+    def javadocTask = task("${set.name}JavadocJar", type: Jar, dependsOn: "javadoc") {
         baseName = "$set.name"
         classifier = 'javadoc'
         from javadoc.destinationDir
