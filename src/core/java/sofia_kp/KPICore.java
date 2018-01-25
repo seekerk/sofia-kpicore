@@ -552,7 +552,7 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 	 * @return return a string explanation message for the last error occurred
 	 */
 
-	String getErrMess()
+	public String getErrMess()
 	{  
 		if(KP_ERROR_ID<0)
 		{
@@ -570,7 +570,7 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
 	 * @return return the ID for the last error occurred, negative value means error
 	 */
 
-	int getErrID()
+	public int getErrID()
 	{  
 		return KP_ERROR_ID;
 	}//String getErrID()
