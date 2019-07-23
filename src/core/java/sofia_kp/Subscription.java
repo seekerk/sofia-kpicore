@@ -37,7 +37,7 @@ public class Subscription {
 
 		final BufferedReader	ft_in = new BufferedReader(  new InputStreamReader(reader));
 
-System.out.println ("Subscription: going to start thread");
+		KPICore.deb_print("Subscription: going to start thread");
 
 		Thread eventThread = 	new Thread()
 		{

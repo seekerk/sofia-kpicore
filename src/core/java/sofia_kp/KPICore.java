@@ -219,7 +219,7 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
      */
 
     private boolean PRINT_ALL_ERR=false;
-    private boolean PRINT_ALL_DEBUG=false;
+    private static boolean PRINT_ALL_DEBUG=false;
 
     /**
      * print msg if error printing is not disabled
@@ -233,7 +233,7 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
      * Print msg if debug is not disabled
      * @param msg
      */
-    void deb_print(String msg)
+    static void deb_print(String msg)
     { if(PRINT_ALL_DEBUG)System.out.println(msg);
     }//void err_print(String mess)
 
