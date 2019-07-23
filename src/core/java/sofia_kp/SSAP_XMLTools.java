@@ -35,7 +35,7 @@ public class SSAP_XMLTools
 	 */
 	public  String nodeID="00000000-0000-0000-0000-DEAD0000BEEF";
 	private int    transaction_id =0;
-	private int    subscription_id=0;
+	private String  subscription_id=null;
 
 	public static final String ANYURI="http://www.nokia.com/NRC/M3/sib#any";
 	private String SMART_SPACE_NAME;
@@ -736,7 +736,7 @@ public class SSAP_XMLTools
 	/**
 	 * Transform the vector triple representation in String representation 
 	 * 
-	 * @param tripleList is a structure to store every SSAP triple.
+	 * @param tripleArrayList is a structure to store every SSAP triple.
 	 * Each element of the vector contains another vector 
 	 * formed by five string elements :
 	 * -the subject
@@ -1056,7 +1056,7 @@ public class SSAP_XMLTools
 	 */
 	public String subscribeRDF(String s,String p,String o,String o_type)
 	{++transaction_id;
-	subscription_id=transaction_id;
+	//subscription_id=transaction_id;
 
 	String ot=o==null?"URI":o_type;
 
@@ -1089,7 +1089,7 @@ public class SSAP_XMLTools
 	public String subscribeRDF(ArrayList<ArrayList<String> > triples)
 	{
 		++transaction_id;
-		subscription_id=transaction_id;
+		//subscription_id=transaction_id;
 
 
 
@@ -1123,6 +1123,10 @@ public class SSAP_XMLTools
 		        //   +"]]>"
 				+"</parameter></SSAP_message>";
 	}//SubscribeSPARQL
+
+	void setLastSubscriptionID(String subscriptionID) {
+		this.subscription_id = subscriptionID;
+	}
 
 	/**
 	 * Make the UNSUBSCRIBE SSAP message
@@ -1511,16 +1515,12 @@ public class SSAP_XMLTools
 
 	/**
 	 * Format the XML message to send to the SIB as a subscription 
-	 * @param s the string representation of the subject.
-	 * @param p the string representation of the predicate. The value 'any' means any value
-	 * @param o the string representation of the object. the value 'any' means any value
-	 * @param o_type the string representation of the object type. Allowed values are: uri, literal
-	 * 
+	 *
 	 * @return a string representation of the XML message to send to the SIB 
 	 */
 	private String subscribeWQLSurround(String[] wql_query_nodes,String wql_values) 
 	{++transaction_id;
-	subscription_id=transaction_id;
+	//subscription_id=transaction_id;
 
 	String str_wql_query_nodes="";
 

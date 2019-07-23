@@ -1238,7 +1238,11 @@ public class KPICore implements iKPIC, iKPIC_subscribeHandler2,  iKPIC_subscribe
                         Subscription s = new Subscription(kpSocket, handler);
                         //startEventHandlerThread(kpSocket,in,out);
 
-                        return new SIBResponse(msg);
+                        // store last subscription id for default unsubscribe
+                        SIBResponse resp = new SIBResponse(msg);
+                        this.xmlTools.setLastSubscriptionID(resp.subscription_id);
+
+                        return resp;
                     }//if(this.xmlTools.isSubscriptionConfirmed(ret))
                     else
                     {
